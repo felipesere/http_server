@@ -1,29 +1,31 @@
 package de.fesere.http.parsers;
 
-import de.fesere.http.FileReaderTestBase;
 import de.fesere.http.StatusLine;
 import org.junit.Test;
 
+import static de.fesere.http.HttpVersion.HTTP_11;
+import static de.fesere.http.Method.GET;
+import static de.fesere.http.Method.POST;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class StatusLineParserTest extends FileReaderTestBase {
+public class StatusLineParserTest {
 
   private StatusLineParser parser = new StatusLineParser();
 
   @Test
-  public void itParsesTheStatusLine() {
-    String statusLineString = getStatusLineOf("/get.txt");
+  public void itCanParseAGETStatusLine() {
+    StatusLine statusLine = parser.read("GET /logs HTTP/1.1\n");
 
-    StatusLine statusLine = parser.read(statusLineString);
-
-    assertThat(statusLine.getMethod(), is("GET"));
+    assertThat(statusLine.getMethod(), is(GET));
     assertThat(statusLine.getPath(), is("/logs"));
-    assertThat(statusLine.getHttpVersion(), is("HTTP/1.1"));
+    assertThat(statusLine.getHttpVersion(), is(HTTP_11));
   }
 
-  private String getStatusLineOf(String file) {
-    String input = readFile(file);
-    return input.split("\n")[0];
+  @Test
+  public void itCanParseAPOSTStatusLine() {
+    StatusLine statusLine = parser.read("POST /logs HTTP/1.1\n");
+
+    assertThat(statusLine.getMethod(), is(POST));
   }
 }

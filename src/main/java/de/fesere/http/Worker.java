@@ -19,7 +19,7 @@ public class Worker implements Runnable {
     try {
       PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
       BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-      for (int i = 0; i < 10; i++) {
+      for (int i = 0; i < 30; i++) {
         String line = reader.readLine();
         if (line.trim().equals("")) {
           break;

@@ -1,17 +1,17 @@
 package de.fesere.http;
 
 public class StatusLine {
-  private final String method;
+  private final Method method;
   private final String path;
-  private final String httpVersion;
+  private final HttpVersion httpVersion;
 
-  public StatusLine(String method, String path, String httpVersion) {
+  public StatusLine(Method method, String path, HttpVersion httpVersion) {
     this.method = method;
     this.path = path;
     this.httpVersion = httpVersion;
   }
 
-  public String getMethod() {
+  public Method getMethod() {
     return method;
   }
 
@@ -19,7 +19,7 @@ public class StatusLine {
     return path;
   }
 
-  public String getHttpVersion() {
+  public HttpVersion getHttpVersion() {
     return httpVersion;
   }
 }
