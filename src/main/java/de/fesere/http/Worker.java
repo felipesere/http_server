@@ -32,6 +32,7 @@ public class Worker implements Runnable {
       StreamingParser parser = new StreamingParser(clientSocket.getInputStream());
       HttpRequest httpRequest = parser.read();
 
+
       HttpResponse response = null;
       if (httpRequest.getRequestLine().getMethod() == OPTIONS) {
         Map<String, String> header = new HashMap<>();
