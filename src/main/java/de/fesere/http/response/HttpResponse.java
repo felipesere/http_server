@@ -31,7 +31,7 @@ public class HttpResponse {
   private String merge(List<String> lines) {
     String result = "";
     for (String line : lines) {
-      result += line + "\n";
+      result += line + "\r\n";
     }
     return result;
   }
