@@ -13,7 +13,7 @@ public class HeaderParser {
     return convertToHeaders(headerLines);
   }
 
-  protected Map<String, String> convertToHeaders(List<String> lines) {
+  public Map<String, String> convertToHeaders(List<String> lines) {
     Map<String, String> result = new HashMap<String, String>();
     for (String line : lines) {
       String[] elements = splitIntoKeyValuePairs(line);
@@ -26,7 +26,7 @@ public class HeaderParser {
     return lines.subList(1, findSeparator(lines));
   }
 
-  private String[] splitIntoKeyValuePairs(String line) {
+  public String[] splitIntoKeyValuePairs(String line) {
     return line.split(":", NUMBER_OF_ELEMENTS);
   }
 

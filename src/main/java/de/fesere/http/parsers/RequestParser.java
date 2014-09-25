@@ -1,7 +1,7 @@
 package de.fesere.http.parsers;
 
 import de.fesere.http.HttpRequest;
-import de.fesere.http.StatusLine;
+import de.fesere.http.RequestLine;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -12,12 +12,12 @@ import static java.util.Arrays.asList;
 
 public class RequestParser {
   public static final int FIRST = 0;
-  private final StatusLineParser statusLineParser = new StatusLineParser();
+  private final RequestLineParser requestLineParser = new RequestLineParser();
   private final HeaderParser headerParser = new HeaderParser();
 
   public HttpRequest read(String input) {
     List<String> lines = splitIntoLines(input);
-    StatusLine status = statusLineParser.read(lines.get(FIRST));
+    RequestLine status = requestLineParser.read(lines.get(FIRST));
     Map<String, String> headers = headerParser.read(lines);
     List<String> body = extractBody(lines, headers);
     return new HttpRequest(status, headers, body);

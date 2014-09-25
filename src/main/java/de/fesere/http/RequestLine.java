@@ -1,11 +1,11 @@
 package de.fesere.http;
 
-public class StatusLine {
+public class RequestLine {
   private final Method method;
   private final String path;
   private final HttpVersion httpVersion;
 
-  public StatusLine(Method method, String path, HttpVersion httpVersion) {
+  public RequestLine(Method method, String path, HttpVersion httpVersion) {
     this.method = method;
     this.path = path;
     this.httpVersion = httpVersion;

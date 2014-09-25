@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpRequest {
-  private StatusLine statusLine;
+  private RequestLine requestLine;
   private Map<String, String> headers;
   private List<String> body;
 
-  public HttpRequest(StatusLine statusLine, Map<String, String> headers, List<String> body) {
-    this.statusLine = statusLine;
+  public HttpRequest(RequestLine requestLine, Map<String, String> headers, List<String> body) {
+    this.requestLine = requestLine;
     this.headers = headers;
     this.body = body;
   }
-  public StatusLine getStatusLine() {
-    return statusLine;
+  public RequestLine getRequestLine() {
+    return requestLine;
   }
 
   public Map<String, String> getHeaders() {

@@ -1,8 +1,8 @@
 package de.fesere.http;
 
-import java.io.BufferedReader;
+import de.fesere.http.parsers.StreamingParser;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -13,18 +13,12 @@ public class Worker implements Runnable {
     this.clientSocket = clientSocket;
   }
 
-
   @Override
   public void run() {
     try {
       PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-      BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-      for (int i = 0; i < 30; i++) {
-        String line = reader.readLine();
-        if (line.trim().equals("")) {
-          break;
-        }
-      }
+      StreamingParser parser = new StreamingParser(clientSocket.getInputStream());
+      HttpRequest read = parser.read();
 
       out.println("HTTP/1.1 200 OK");
       clientSocket.close();
