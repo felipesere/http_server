@@ -1,4 +1,4 @@
-package de.fesere.http;
+package de.fesere.http.request;
 
 import java.util.List;
 import java.util.Map;

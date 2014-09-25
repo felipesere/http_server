@@ -2,7 +2,7 @@ package de.fesere.http.parsers;
 
 import de.fesere.http.HttpVersion;
 import de.fesere.http.Method;
-import de.fesere.http.RequestLine;
+import de.fesere.http.request.RequestLine;
 
 public class RequestLineParser {
 

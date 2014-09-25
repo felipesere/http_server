@@ -1,41 +1,41 @@
 package de.fesere.http.parsers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class HeaderParser {
 
   public static final int NUMBER_OF_ELEMENTS = 2;
 
-  public Map<String, String> read(List<String> lines) {
-    List<String> headerLines = extractHeaders(lines);
-    return convertToHeaders(headerLines);
-  }
-
-  public Map<String, String> convertToHeaders(List<String> lines) {
-    Map<String, String> result = new HashMap<String, String>();
-    for (String line : lines) {
-      String[] elements = splitIntoKeyValuePairs(line);
-      result.put(elements[0].trim(), elements[1].trim());
+  public Map<String, String> read(BufferedReader reader) throws IOException {
+    Map<String, String> headers = new HashMap<>();
+    String line = reader.readLine();
+    while (!isLast(line)) {
+      String [] elements = splitIntoKeyValuePairs(line);
+      headers.put(elements[0], elements[1]);
+      line = reader.readLine();
     }
-    return result;
+
+    return headers;
   }
 
-  private List<String> extractHeaders(List<String> lines) {
-    return lines.subList(1, findSeparator(lines));
+  private boolean isLast(String line) {
+    return line == null || line.trim().equals("");
   }
 
   public String[] splitIntoKeyValuePairs(String line) {
-    return line.split(":", NUMBER_OF_ELEMENTS);
+    String[] elements = line.split(":", NUMBER_OF_ELEMENTS);
+    return clean(elements);
   }
 
-  private int findSeparator(List<String> lines) {
-    for (int i = 0; i < lines.size(); i++) {
-      if(lines.get(i).trim().equals("")) {
-        return i;
-      }
+  private String[] clean(String[] elements) {
+    int numberOfElements = elements.length;
+    String[] result = new String[numberOfElements];
+    for (int i = 0; i < numberOfElements; i++) {
+      result[i] = elements[i].trim();
     }
-    return lines.size();
+    return result;
   }
 }

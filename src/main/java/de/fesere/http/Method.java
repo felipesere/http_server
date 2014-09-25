@@ -1,5 +1,11 @@
 package de.fesere.http;
 
 public enum Method {
-  GET, POST;
+  POST,
+  PUT,
+  GET,
+  HEAD,
+  DELETE,
+  OPTIONS,
+  PATCH
 }

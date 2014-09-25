@@ -1,6 +1,6 @@
 package de.fesere.http.parsers;
 
-import de.fesere.http.HttpRequest;
+import de.fesere.http.request.HttpRequest;
 import org.junit.Test;
 
 import java.io.InputStream;

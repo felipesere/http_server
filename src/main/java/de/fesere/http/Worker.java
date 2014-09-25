@@ -1,6 +1,7 @@
 package de.fesere.http;
 
 import de.fesere.http.parsers.StreamingParser;
+import de.fesere.http.request.HttpRequest;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,15 +16,14 @@ public class Worker implements Runnable {
 
   @Override
   public void run() {
-    try {
-      PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+    try ( PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
       StreamingParser parser = new StreamingParser(clientSocket.getInputStream());
       HttpRequest read = parser.read();
 
       out.println("HTTP/1.1 200 OK");
+      out.flush();
       clientSocket.close();
     } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 }
