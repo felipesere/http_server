@@ -11,8 +11,9 @@ public class Main {
 
     try {
       final ExecutorService executorService = Executors.newFixedThreadPool(30);
+      ServerSocket server = new ServerSocket(5000);
       while(true) {
-        Socket clientSocket = new ServerSocket(5000).accept();
+        Socket clientSocket = server.accept();
         executorService.submit(new Worker(clientSocket));
       }
     } catch (IOException e) {
