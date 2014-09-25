@@ -17,4 +17,9 @@ public class HttpVersionTest {
   public void invalidConversion() {
     HttpVersion.fromString("HTTP/2.0");
   }
+
+  @Test
+  public void correctPrintableOutput() {
+    assertThat(HTTP_11.printable(), is("HTTP/1.1"));
+  }
 }

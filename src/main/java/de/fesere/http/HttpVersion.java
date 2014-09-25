@@ -9,4 +9,11 @@ public enum HttpVersion {
     }
     throw new RuntimeException("Unsupported HTTP version: " + element);
   }
+
+  public String printable() {
+    if(this == HTTP_11) {
+      return "HTTP/1.1";
+    }
+    throw new RuntimeException("Unsupported HTTP version: " + this);
+  }
 }
