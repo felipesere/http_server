@@ -2,11 +2,12 @@ package de.fesere.http;
 
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
-import de.fesere.http.response.StatusLine;
+
+import static de.fesere.http.response.StatusLine.METHOD_NOT_ALLOWED;
 
 public class BaseController implements Controller {
 
-  private final HttpResponse methodNotAllowed = new HttpResponse(new StatusLine(405, "Method Not Allowed"));
+  private final HttpResponse methodNotAllowed = new HttpResponse(METHOD_NOT_ALLOWED);
   @Override
   public HttpResponse doPost(HttpRequest request) {
     return methodNotAllowed;

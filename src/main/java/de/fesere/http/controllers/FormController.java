@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import static de.fesere.http.response.StatusLine.*;
+
 public class FormController extends BaseController {
 
   private VirtualFileSystem fileSystem;
@@ -24,7 +26,7 @@ public class FormController extends BaseController {
     fileSystem.delete("/form");
     fileSystem.create("/form");
     fileSystem.writeTo("/form", request.getBody());
-    return new HttpResponse(new StatusLine(200, "OK"));
+    return new HttpResponse(OK);
   }
 
   @Override
@@ -33,19 +35,19 @@ public class FormController extends BaseController {
     if (fileSystem.exists("/form")) {
       read.addAll(fileSystem.read("/form"));
     }
-    return new HttpResponse(new StatusLine(200, "OK"), new HashMap<String, String>(), flatten(read));
+    return new HttpResponse(StatusLine.OK, new HashMap<String, String>(), flatten(read));
   }
 
   @Override
   public HttpResponse doPut(HttpRequest request) {
     fileSystem.writeTo("/form", request.getBody());
-    return new HttpResponse(new StatusLine(200, "OK"));
+    return new HttpResponse(OK);
   }
 
   @Override
   public HttpResponse doDelete(HttpRequest request) {
     fileSystem.delete("/form");
-    return new HttpResponse(new StatusLine(200, "OK"));
+    return new HttpResponse(OK);
   }
 
   private String flatten(List<String> read) {

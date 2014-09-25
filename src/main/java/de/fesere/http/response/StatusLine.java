@@ -15,4 +15,9 @@ public class StatusLine {
   public String printable() {
     return httpVersion.printable() + " " + status + " " + reason;
   }
+
+  public static final StatusLine OK = new StatusLine(200, "OK");
+  public static final StatusLine METHOD_NOT_ALLOWED = new StatusLine(405, "Method Not Allowed");
+  public static final StatusLine NOT_FOUND = new StatusLine(404, "Not Found");
+  public static final StatusLine CREATED = new StatusLine(201, "Created");
 }
