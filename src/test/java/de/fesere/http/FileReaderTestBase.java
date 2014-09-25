@@ -7,7 +7,7 @@ import java.util.List;
 import static org.apache.commons.io.IOUtils.readLines;
 
 public class FileReaderTestBase {
-  public String readFile(String path) {
+  protected String readFile(String path) {
 
     try {
       List<String> lines = readLines(getClass().getResourceAsStream(path), Charset.forName("UTF-8").toString());

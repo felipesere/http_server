@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class HeaderParser {
 
-  public static final int NUMBER_OF_ELEMENTS = 2;
+  private static final int NUMBER_OF_ELEMENTS = 2;
 
   public Map<String, String> read(BufferedReader reader) throws IOException {
     Map<String, String> headers = new HashMap<>();

@@ -1,5 +1,7 @@
 package de.fesere.http;
 
+import de.fesere.http.vfs.VirtualFileSystem;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,9 +14,10 @@ public class Main {
     try {
       final ExecutorService executorService = Executors.newFixedThreadPool(30);
       ServerSocket server = new ServerSocket(5000);
+      VirtualFileSystem vfs = new VirtualFileSystem();
       while(true) {
         Socket clientSocket = server.accept();
-        executorService.submit(new Worker(clientSocket));
+        executorService.submit(new Worker(clientSocket,vfs));
       }
     } catch (IOException e) {
       System.exit(-1);

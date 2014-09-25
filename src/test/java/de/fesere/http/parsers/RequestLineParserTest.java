@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RequestLineParserTest {
 
-  private RequestLineParser parser = new RequestLineParser();
+  private final RequestLineParser parser = new RequestLineParser();
 
   @Test
   public void itCanParseAGET() {

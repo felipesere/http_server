@@ -1,6 +1,5 @@
 package de.fesere.http.response;
 
-import de.fesere.http.HttpVersion;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

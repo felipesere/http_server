@@ -17,10 +17,10 @@ import static java.util.Arrays.asList;
 
 public class StreamingParser {
 
-  public static final String CONTENT_LENGTH_HEADER = "Content-Length";
-  private BufferedReader reader;
-  private RequestLineParser requestLineParser = new RequestLineParser();
-  private HeaderParser headerParser = new HeaderParser();
+  private static final String CONTENT_LENGTH_HEADER = "Content-Length";
+  private final BufferedReader reader;
+  private final RequestLineParser requestLineParser = new RequestLineParser();
+  private final HeaderParser headerParser = new HeaderParser();
 
   public StreamingParser(InputStream inputStream) {
     this.reader = new BufferedReader(new InputStreamReader(inputStream));

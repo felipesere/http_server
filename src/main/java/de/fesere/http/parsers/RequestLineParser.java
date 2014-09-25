@@ -6,9 +6,9 @@ import de.fesere.http.request.RequestLine;
 
 public class RequestLineParser {
 
-  public static final int METHOD = 0;
-  public static final int PATH = 1;
-  public static final int HTTP_VERSION = 2;
+  private static final int METHOD = 0;
+  private static final int PATH = 1;
+  private static final int HTTP_VERSION = 2;
 
   public RequestLine read(String line) {
     String [] elements = line.split(" ");

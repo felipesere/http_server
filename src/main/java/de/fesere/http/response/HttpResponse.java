@@ -1,14 +1,20 @@
 package de.fesere.http.response;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class HttpResponse {
-  private List<String> lines = new LinkedList<>();
+  private final List<String> lines = new LinkedList<>();
 
+  public  HttpResponse(StatusLine line) {
+    this(line, new HashMap<String, String>(), "");
+  }
   public HttpResponse(StatusLine line, Map<String, String> headers, String body) {
-    headers.put("Content-Length", "" + body.length());
+    if(body.length() > 0) {
+      headers.put("Content-Length", "" + body.length());
+    }
     lines.add(line.printable());
     lines.addAll(flatten(headers));
     lines.add("");

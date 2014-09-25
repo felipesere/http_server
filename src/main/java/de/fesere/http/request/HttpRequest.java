@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpRequest {
-  private RequestLine requestLine;
-  private Map<String, String> headers;
-  private List<String> body;
+  private final RequestLine requestLine;
+  private final Map<String, String> headers;
+  private final List<String> body;
 
   public HttpRequest(RequestLine requestLine, Map<String, String> headers, List<String> body) {
     this.requestLine = requestLine;
