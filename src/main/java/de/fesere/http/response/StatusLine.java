@@ -20,4 +20,8 @@ public class StatusLine {
   public static final StatusLine METHOD_NOT_ALLOWED = new StatusLine(405, "Method Not Allowed");
   public static final StatusLine NOT_FOUND = new StatusLine(404, "Not Found");
   public static final StatusLine CREATED = new StatusLine(201, "Created");
+
+  public int getStatusCode() {
+    return status;
+  }
 }
