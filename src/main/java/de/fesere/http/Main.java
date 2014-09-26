@@ -23,11 +23,10 @@ public class Main {
       vfs.preload(arguments.get("-d"));
     }
     Router router = new Router();
-    //router.register("/", new IndexController());
+    router.rootCoontroler(new StaticResourcesController(vfs));
     router.register("/form", new FormController(vfs));
     router.register("/method_options", new MethodOptionsController());
     router.register("/redirect", new RedirectController());
-    router.registerDynamic("/", new StaticResourcesController(vfs));
 
     try {
       final ExecutorService executorService = Executors.newFixedThreadPool(30);

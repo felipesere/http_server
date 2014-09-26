@@ -5,20 +5,20 @@ import de.fesere.http.controllers.NotFoundController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Router {
   private Map<String, Controller> controllers = new HashMap<>();
-  private Map<String, Controller> dynamicControllers = new HashMap<>();
+  private Controller rootController = new NotFoundController();
 
   public Controller controllerFor(String path) {
     String basePath = getBase(path);
     if (controllers.containsKey(basePath)) {
       return controllers.get(basePath);
     }
-    if(dynamicControllers.containsKey(basePath)) {
-       if(dynamicControllers.get(basePath).canHandle(path)) {
-         return dynamicControllers.get(basePath);
-       }
+    if(rootController.canHandle(path)) {
+      return rootController;
     }
     return new NotFoundController();
   }
@@ -30,38 +30,23 @@ public class Router {
   }
 
   private void failWhenControllerExists(String path) {
-    if(controllers.containsKey(path)) {
+    if (controllers.containsKey(path)) {
       throw new ControllerAlreadyExistsException(path);
     }
   }
 
   private String getBase(String path) {
-    if(path.equals("/")) {
+    if (path.equals("/")) {
       return path;
     } else {
-      int secondSlash = path.indexOf("/", 1);
-      if(secondSlash > 0) {
-        return path.substring(0, secondSlash);
-      } else {
-        return path;
-      }
+      Pattern p = Pattern.compile("^(/[^/]+)");
+      Matcher m = p.matcher(path);
+      m.find();
+      return m.group(0);
     }
   }
 
-  private String getRemaining(String path) {
-    if(path.equals("/")) {
-      return path;
-    } else {
-      int secondSlash = path.indexOf("/", 1);
-      if(secondSlash > 0) {
-        return path.substring(secondSlash,path.length());
-      } else {
-        return path;
-      }
-    }
-  }
-
-  public void registerDynamic(String path, Controller controller) {
-    dynamicControllers.put(path,controller);
+  public void rootCoontroler(Controller handlePath) {
+    this.rootController = handlePath;
   }
 }

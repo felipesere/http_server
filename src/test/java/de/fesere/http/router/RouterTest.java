@@ -2,6 +2,7 @@ package de.fesere.http.router;
 
 import de.fesere.http.controllers.Controller;
 import de.fesere.http.controllers.NotFoundController;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.function.Function;
@@ -21,12 +22,6 @@ public class RouterTest {
     assertThat(router.controllerFor("/sample"), is(controller));
   }
 
-  @Test
-  public void itCanRegisterANewDynamicController() {
-    router.registerDynamic("/sample", controller);
-    assertThat(router.controllerFor("/sample"),is(controller));
-  }
-
   @Test(expected = ControllerAlreadyExistsException.class)
   public void itCanNotRegisterControllerTwice() {
     router.register("/sample", controller);
@@ -42,8 +37,9 @@ public class RouterTest {
   @Test
   public void dynamicControllerFoundToHandleSubpath() {
     Controller handlePath = controller(s -> s.startsWith("/sample"));
-    router.registerDynamic("/sample", handlePath);
+    router.rootCoontroler(handlePath);
     assertThat(router.controllerFor("/sample/subpath"), is(handlePath));
+    assertThat(router.controllerFor("/other"), is(Matchers.<Object>instanceOf(NotFoundController.class)));
   }
 
   private Controller controller(Function<String, Boolean> canHandle) {
