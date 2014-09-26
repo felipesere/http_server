@@ -19,4 +19,34 @@ public class HttpResponseMatchers {
       }
     };
   }
+  public static Matcher<HttpResponse> hasBody(Matcher<String>... matchers) {
+    return new TypeSafeMatcher<HttpResponse>() {
+      public Matcher<String> failedMatcher = null;
+
+      @Override
+      protected boolean matchesSafely(HttpResponse item) {
+        if (item.getBody().isEmpty()) {
+          return false;
+        } else {
+          for(Matcher<String> matcher : matchers) {
+            if(!matcher.matches(item.getBody())) {
+              failedMatcher = matcher;
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+
+
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Expected body of request to match ");
+        for(Matcher<String> matcher : matchers) {
+          matcher.describeTo(description);
+        }
+      }
+
+    };
+  }
 }
