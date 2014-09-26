@@ -7,7 +7,7 @@ import de.fesere.http.response.StatusLine;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RedirectController extends BaseController{
+public class RedirectController extends Controller {
   @Override
   public HttpResponse doGet(HttpRequest request) {
     Map<String, String> headers = new HashMap<>();

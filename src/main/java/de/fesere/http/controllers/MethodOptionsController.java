@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static de.fesere.http.response.StatusLine.OK;
 
-public class MethodOptionsController extends BaseController {
+public class MethodOptionsController extends Controller {
   @Override
   public HttpResponse doOptions(HttpRequest request) {
     Map<String, String> header = new HashMap<>();

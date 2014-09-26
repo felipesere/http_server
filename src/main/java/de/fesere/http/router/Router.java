@@ -1,7 +1,6 @@
 package de.fesere.http.router;
 
 import de.fesere.http.controllers.Controller;
-import de.fesere.http.controllers.DynamicController;
 import de.fesere.http.controllers.NotFoundController;
 
 import java.util.HashMap;
@@ -9,7 +8,7 @@ import java.util.Map;
 
 public class Router {
   private Map<String, Controller> controllers = new HashMap<>();
-  private Map<String, DynamicController> dynamicControllers = new HashMap<>();
+  private Map<String, Controller> dynamicControllers = new HashMap<>();
 
   public Controller controllerFor(String path) {
     String basePath = getBase(path);
@@ -37,10 +36,6 @@ public class Router {
     }
   }
 
-  public void registerDynamic(String basePath, DynamicController controller) {
-    dynamicControllers.put(basePath, controller);
-  }
-
   private String getBase(String path) {
     if(path.equals("/")) {
       return path;
@@ -65,5 +60,9 @@ public class Router {
         return path;
       }
     }
+  }
+
+  public void registerDynamic(String path, Controller controller) {
+    dynamicControllers.put(path,controller);
   }
 }

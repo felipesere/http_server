@@ -3,12 +3,48 @@ package de.fesere.http.controllers;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
 
-public interface Controller {
-  HttpResponse doPost(HttpRequest request);
-  HttpResponse doPut(HttpRequest request);
-  HttpResponse doGet(HttpRequest request);
-  HttpResponse doDelete(HttpRequest request);
-  HttpResponse doHead(HttpRequest request);
-  HttpResponse doOptions(HttpRequest request);
-  HttpResponse doPatch(HttpRequest request);
+import static de.fesere.http.response.StatusLine.METHOD_NOT_ALLOWED;
+
+public class Controller {
+
+  private final HttpResponse methodNotAllowed = new HttpResponse(METHOD_NOT_ALLOWED);
+
+  
+  public HttpResponse doPost(HttpRequest request) {
+    return methodNotAllowed;
+  }
+
+  
+  public HttpResponse doPut(HttpRequest request) {
+    return methodNotAllowed;
+  }
+
+  
+  public HttpResponse doGet(HttpRequest request) {
+    return methodNotAllowed;
+  }
+
+  
+  public HttpResponse doDelete(HttpRequest request) {
+    return methodNotAllowed;
+  }
+
+  
+  public HttpResponse doHead(HttpRequest request) {
+    return methodNotAllowed;
+  }
+
+  
+  public HttpResponse doOptions(HttpRequest request) {
+    return methodNotAllowed;
+  }
+
+  
+  public HttpResponse doPatch(HttpRequest request) {
+    return methodNotAllowed;
+  }
+
+  public boolean canHandle(String path) {
+    return true;
+  }
 }

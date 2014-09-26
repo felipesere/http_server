@@ -10,7 +10,7 @@ import java.util.List;
 
 import static de.fesere.http.response.StatusLine.NOT_FOUND;
 
-public class StaticResourcesController implements DynamicController {
+public class StaticResourcesController extends Controller {
 
   private final VirtualFileSystem vfs;
   private final HttpResponse notFound = new HttpResponse(NOT_FOUND);

@@ -11,7 +11,7 @@ import java.util.List;
 
 import static de.fesere.http.response.StatusLine.*;
 
-public class FormController extends BaseController {
+public class FormController extends Controller {
 
   private VirtualFileSystem fileSystem;
 
