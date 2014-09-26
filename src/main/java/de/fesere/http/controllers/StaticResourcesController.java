@@ -21,12 +21,11 @@ public class StaticResourcesController extends Controller {
 
   @Override
   public boolean canHandle(String path) {
-    return path.equals("/") || vfs.listFiles().contains(path);
-  }
-
-  @Override
-  public HttpResponse doPost(HttpRequest request) {
-    return notFound;
+    if(path.equals("/")) {
+      return true;
+    }
+    String file = remainder(path);
+    return vfs.listFiles().contains(file);
   }
 
   @Override
@@ -44,7 +43,7 @@ public class StaticResourcesController extends Controller {
     else {
        lines = vfs.read(remainder(path));
     }
-    return new HttpResponse(StatusLine.OK, new HashMap<String, String>(), flatten(lines));
+    return new HttpResponse(StatusLine.OK, new HashMap<>(), flatten(lines));
   }
 
   private String remainder(String path) {
@@ -60,25 +59,6 @@ public class StaticResourcesController extends Controller {
     }
   }
 
-  @Override
-  public HttpResponse doDelete(HttpRequest request) {
-    return notFound;
-  }
-
-  @Override
-  public HttpResponse doHead(HttpRequest request) {
-    return notFound;
-  }
-
-  @Override
-  public HttpResponse doOptions(HttpRequest request) {
-    return notFound;
-  }
-
-  @Override
-  public HttpResponse doPatch(HttpRequest request) {
-    return notFound;
-  }
   private String flatten(List<String> read) {
     String result = "";
     for (String line : read) {

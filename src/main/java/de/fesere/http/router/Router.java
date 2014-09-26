@@ -16,8 +16,7 @@ public class Router {
       return controllers.get(basePath);
     }
     if(dynamicControllers.containsKey(basePath)) {
-       String remainingPath = getRemaining(path);
-       if(dynamicControllers.get(basePath).canHandle(remainingPath)) {
+       if(dynamicControllers.get(basePath).canHandle(path)) {
          return dynamicControllers.get(basePath);
        }
     }
