@@ -8,12 +8,9 @@ import de.fesere.http.vfs.VirtualFileSystem;
 import java.util.HashMap;
 import java.util.List;
 
-import static de.fesere.http.response.StatusLine.NOT_FOUND;
-
 public class StaticResourcesController extends Controller {
 
   private final VirtualFileSystem vfs;
-  private final HttpResponse notFound = new HttpResponse(NOT_FOUND);
 
   public StaticResourcesController(VirtualFileSystem vfs) {
     this.vfs = vfs;
@@ -21,16 +18,11 @@ public class StaticResourcesController extends Controller {
 
   @Override
   public boolean canHandle(String path) {
-    if(path.equals("/")) {
-      return true;
-    }
-    String file = remainder(path);
-    return vfs.listFiles().contains(file);
+    return path.equals("/") || fileExists(path);
   }
 
-  @Override
-  public HttpResponse doPut(HttpRequest request) {
-    return notFound;
+  private boolean fileExists(String path) {
+    return vfs.listFiles().contains(remainder(path));
   }
 
   @Override
