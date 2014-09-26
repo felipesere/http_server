@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.LinkedList;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -52,5 +53,20 @@ public class VirtualFileSystemTest {
   @Test(expected = FileDoesNotExistException.class)
   public void canNotWriteToNonExistingFile() {
     vfs.writeTo("/samplePath", new LinkedList<String>());
+  }
+
+  @Test
+  public void canListExistingFiles() {
+    vfs.create("/sample1");
+    vfs.create("/sample2");
+    vfs.create("/sample3");
+    assertThat(vfs.listFiles(), hasItems("/sample1", "/sample2", "/sample3"));
+  }
+
+
+  @Test
+  public void canBePreloadedFromFileSystem() {
+    vfs.preload("src/test/resources/public");
+    assertThat(vfs.listFiles(), hasItems("/file1.txt", "/file2.txt"));
   }
 }

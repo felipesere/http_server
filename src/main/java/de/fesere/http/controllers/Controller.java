@@ -1,4 +1,4 @@
-package de.fesere.http;
+package de.fesere.http.controllers;
 
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;

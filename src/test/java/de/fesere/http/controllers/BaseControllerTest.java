@@ -1,5 +1,6 @@
-package de.fesere.http;
+package de.fesere.http.controllers;
 
+import de.fesere.http.controllers.BaseController;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.request.RequestLine;
 import org.junit.Test;

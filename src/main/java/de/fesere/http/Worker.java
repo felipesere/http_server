@@ -1,5 +1,6 @@
 package de.fesere.http;
 
+import de.fesere.http.controllers.Controller;
 import de.fesere.http.parsers.StreamingParser;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
@@ -28,7 +29,7 @@ public class Worker implements Runnable {
       StreamingParser parser = new StreamingParser(clientSocket.getInputStream());
       HttpRequest httpRequest = parser.read();
 
-      HttpResponse response = handleFormPath(httpRequest);
+      HttpResponse response = processController(httpRequest);
 
       out.println(response.printable());
       clientSocket.close();
@@ -36,7 +37,7 @@ public class Worker implements Runnable {
     }
   }
 
-  private HttpResponse handleFormPath(HttpRequest httpRequest) {
+  private HttpResponse processController(HttpRequest httpRequest) {
     Controller controller = router.controllerFor(httpRequest.getRequestLine().getPath());
     return dispatcher.dispatch(controller, httpRequest);
   }

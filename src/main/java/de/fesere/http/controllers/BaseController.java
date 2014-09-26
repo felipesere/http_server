@@ -1,45 +1,51 @@
-package de.fesere.http.router;
+package de.fesere.http.controllers;
 
-import de.fesere.http.Controller;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
 
-import static de.fesere.http.response.StatusLine.NOT_FOUND;
+import static de.fesere.http.response.StatusLine.METHOD_NOT_ALLOWED;
 
-public class NotFoundController implements Controller {
-  private final HttpResponse notFound = new HttpResponse(NOT_FOUND);
+public class BaseController implements Controller {
+
+  private final HttpResponse methodNotAllowed = new HttpResponse(METHOD_NOT_ALLOWED);
+
   @Override
   public HttpResponse doPost(HttpRequest request) {
-    return notFound;
+    return methodNotAllowed;
   }
 
   @Override
   public HttpResponse doPut(HttpRequest request) {
-    return notFound;
+    return methodNotAllowed;
   }
 
   @Override
   public HttpResponse doGet(HttpRequest request) {
-    return notFound;
+    return methodNotAllowed;
   }
 
   @Override
   public HttpResponse doDelete(HttpRequest request) {
-    return notFound;
+    return methodNotAllowed;
   }
 
   @Override
   public HttpResponse doHead(HttpRequest request) {
-    return notFound;
+    return methodNotAllowed;
   }
 
   @Override
   public HttpResponse doOptions(HttpRequest request) {
-    return notFound;
+    return methodNotAllowed;
   }
 
   @Override
   public HttpResponse doPatch(HttpRequest request) {
-    return notFound;
+    return methodNotAllowed;
+  }
+
+  public boolean canHandle(String path) {
+    return true;
   }
 }
+
