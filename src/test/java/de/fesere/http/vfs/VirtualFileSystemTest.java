@@ -52,7 +52,7 @@ public class VirtualFileSystemTest {
 
   @Test(expected = FileDoesNotExistException.class)
   public void canNotWriteToNonExistingFile() {
-    vfs.writeTo("/samplePath", new LinkedList<String>());
+    vfs.writeTo("/samplePath", new LinkedList<>());
   }
 
   @Test

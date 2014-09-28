@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ControllerTest {
 
-  private final HttpRequest request = new HttpRequest(new RequestLine(GET, "/foo", HTTP_11), new HashMap<>(), new LinkedList<String>());
+  private final HttpRequest request = new HttpRequest(new RequestLine(GET, "/foo", HTTP_11), new HashMap<>(), new LinkedList<>());
 
   @Test
   public void returnsMethodNotAllowedForAllMethods() {

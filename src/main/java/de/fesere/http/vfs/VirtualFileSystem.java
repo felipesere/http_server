@@ -8,13 +8,13 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class VirtualFileSystem {
-  private Map<String, List<String>> files = Collections.synchronizedMap(new HashMap<String, List<String>>());
+  private final Map<String, List<String>> files = Collections.synchronizedMap(new HashMap<>());
   public boolean exists(String path) {
     return files.containsKey(path);
   }
 
   public void create(String path) {
-    files.put(path, new LinkedList<String>());
+    files.put(path, new LinkedList<>());
   }
 
   public void delete(String path) {

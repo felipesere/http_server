@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class Path {
 
-  private String path;
+  private final String path;
 
   public static Path path(String path) {
     return new Path(path);

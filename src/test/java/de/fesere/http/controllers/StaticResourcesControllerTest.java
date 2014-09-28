@@ -18,9 +18,7 @@ import static de.fesere.http.matchers.HttpResponseMatchers.hasBody;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasStatusCode;
 import static de.fesere.http.request.Path.path;
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class StaticResourcesControllerTest {
@@ -39,7 +37,10 @@ public class StaticResourcesControllerTest {
     vfs.create("/file3");
 
     Controller controller = new StaticResourcesController(vfs);
-    assertThat(controller.doGet(request("/")), hasBody(containsString("/file1"), containsString("/file2"), containsString("/file3")));
+    assertThat(controller.doGet(request("/")), hasBody(allOf(containsString("/file1"),
+                                                             containsString("/file2"),
+                                                             containsString("/file3"))));
+
   }
 
 
@@ -51,7 +52,8 @@ public class StaticResourcesControllerTest {
 
     Controller controller = new StaticResourcesController(vfs);
     assertThat(controller.canHandle(path("/file1")), is(true));
-    assertThat(controller.doGet(request("/file1")), hasBody(containsString("Foo"), containsString("Bar")));
+    assertThat(controller.doGet(request("/file1")), hasBody(allOf(containsString("Foo"),
+                                                                  containsString("Bar"))));
   }
 
   @Test

@@ -25,7 +25,7 @@ public class HeaderParser {
     return line == null || line.trim().equals("");
   }
 
-  public String[] splitIntoKeyValuePairs(String line) {
+  private String[] splitIntoKeyValuePairs(String line) {
     String[] elements = line.split(":", NUMBER_OF_ELEMENTS);
     return clean(elements);
   }

@@ -1,58 +1,27 @@
 package de.fesere.http.matchers;
 
 import de.fesere.http.response.HttpResponse;
-import org.hamcrest.Description;
+import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+
+import static org.hamcrest.core.IsEqual.equalTo;
 
 public class HttpResponseMatchers {
   public static Matcher<HttpResponse> hasStatusCode(int statusCode) {
-   return new TypeSafeMatcher<HttpResponse>() {
-     @Override
-     protected boolean matchesSafely(HttpResponse item) {
-       return item.getStatusCode() == statusCode;
-     }
-
-     @Override
-     public void describeTo(Description description) {
-      description.appendText("response to have had status code ").appendValue(statusCode);
-     }
-
-     @Override
-     protected void describeMismatchSafely(HttpResponse item, Description mismatchDescription) {
-       mismatchDescription.appendText("was ").appendValue(item.getStatusCode());
-     }
-   };
+    return new FeatureMatcher<HttpResponse, Integer>(equalTo(statusCode), "statusCode", "statusCode") {
+      @Override
+      protected Integer featureValueOf(HttpResponse actual) {
+        return actual.getStatusCode();
+      }
+    };
   }
-  public static Matcher<HttpResponse> hasBody(Matcher<String>... matchers) {
 
-    return new TypeSafeMatcher<HttpResponse>() {
-      public Matcher<String> failedMatcher = null;
-
+  public static Matcher<HttpResponse> hasBody(Matcher<String> matcher) {
+    return new FeatureMatcher<HttpResponse, String>(matcher, "body", "body" ) {
       @Override
-      protected boolean matchesSafely(HttpResponse item) {
-        if (item.getBody().isEmpty()) {
-          return false;
-        } else {
-          for(Matcher<String> matcher : matchers) {
-            if(!matcher.matches(item.getBody())) {
-              failedMatcher = matcher;
-              return false;
-            }
-          }
-        }
-        return true;
+      protected String featureValueOf(HttpResponse actual) {
+        return actual.getBody();
       }
-
-
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("Expected body of request to match ");
-        for(Matcher<String> matcher : matchers) {
-          matcher.describeTo(description);
-        }
-      }
-
     };
   }
 }

@@ -13,7 +13,7 @@ import static de.fesere.http.response.StatusLine.*;
 
 public class FormController extends Controller {
 
-  private VirtualFileSystem fileSystem;
+  private final VirtualFileSystem fileSystem;
 
   public FormController(VirtualFileSystem fileSystem) {
     this.fileSystem = fileSystem;
@@ -34,7 +34,7 @@ public class FormController extends Controller {
     if (fileSystem.exists("/form")) {
       read.addAll(fileSystem.read("/form"));
     }
-    return new HttpResponse(StatusLine.OK, new HashMap<String, String>(), flatten(read));
+    return new HttpResponse(StatusLine.OK, new HashMap<>(), flatten(read));
   }
 
   @Override
