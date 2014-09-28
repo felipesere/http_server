@@ -12,7 +12,7 @@ public class HttpResponse {
   private final String body;
 
   public  HttpResponse(StatusLine statusLine) {
-    this(statusLine, new HashMap<String, String>(), "");
+    this(statusLine, new HashMap<>(), "");
   }
   public HttpResponse(StatusLine statusLine, Map<String, String> headers, String body) {
     this.statusLine = statusLine;
@@ -54,5 +54,9 @@ public class HttpResponse {
 
   public String getBody() {
     return body;
+  }
+
+  public Map<String, String> getHeaders() {
+    return headers;
   }
 }

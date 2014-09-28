@@ -4,6 +4,7 @@ import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
 import de.fesere.http.response.StatusLine;
 import de.fesere.http.vfs.VirtualFileSystem;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,22 @@ public class StaticResourcesController extends Controller {
        lines = vfs.read(remainder(path));
     }
     return new HttpResponse(StatusLine.OK, new HashMap<>(), flatten(lines));
+  }
+
+  @Override
+  public HttpResponse doPatch(HttpRequest request) {
+    String inSha1 = request.getHeaders().get("If-Match");
+    String file = flatten(vfs.read(request.getRequestLine().getPath()));
+    if(inSha1.equals(calculateSHA1(file))) {
+      vfs.writeTo(request.getRequestLine().getPath(), request.getBody());
+      return new HttpResponse(new StatusLine(204, "Not Modified"));
+    } else {
+      return new HttpResponse(StatusLine.OK);
+    }
+  }
+
+  private String calculateSHA1(String input) {
+    return DigestUtils.sha1Hex(input);
   }
 
   private String remainder(String path) {
