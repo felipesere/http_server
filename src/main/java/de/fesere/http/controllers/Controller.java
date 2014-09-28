@@ -1,6 +1,7 @@
 package de.fesere.http.controllers;
 
 import de.fesere.http.request.HttpRequest;
+import de.fesere.http.request.Path;
 import de.fesere.http.response.HttpResponse;
 
 import static de.fesere.http.response.StatusLine.METHOD_NOT_ALLOWED;
@@ -44,7 +45,7 @@ public class Controller {
     return methodNotAllowed;
   }
 
-  public boolean canHandle(String path) {
+  public boolean canHandle(Path path) {
     return true;
   }
 }

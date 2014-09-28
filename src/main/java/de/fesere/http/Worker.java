@@ -38,7 +38,7 @@ public class Worker implements Runnable {
   }
 
   private HttpResponse processController(HttpRequest httpRequest) {
-    Controller controller = router.controllerFor(httpRequest.getRequestLine().getPath());
+    Controller controller = router.controllerFor(httpRequest.getPath());
     return dispatcher.dispatch(controller, httpRequest);
   }
 }

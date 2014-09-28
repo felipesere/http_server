@@ -24,4 +24,8 @@ public class HttpRequest {
   public List<String> getBody() {
     return body;
   }
+
+  public Path getPath() {
+    return new Path(requestLine.getPath());
+  }
 }

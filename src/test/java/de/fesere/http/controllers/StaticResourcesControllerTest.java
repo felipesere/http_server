@@ -16,6 +16,7 @@ import static de.fesere.http.Method.GET;
 import static de.fesere.http.Method.PATCH;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasBody;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasStatusCode;
+import static de.fesere.http.request.Path.path;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -49,7 +50,7 @@ public class StaticResourcesControllerTest {
     vfs.writeTo("/file1", asList("Foo", "Bar"));
 
     Controller controller = new StaticResourcesController(vfs);
-    assertThat(controller.canHandle("/file1"), is(true));
+    assertThat(controller.canHandle(path("/file1")), is(true));
     assertThat(controller.doGet(request("/file1")), hasBody(containsString("Foo"), containsString("Bar")));
   }
 
