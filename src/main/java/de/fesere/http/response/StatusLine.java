@@ -2,12 +2,23 @@ package de.fesere.http.response;
 
 import de.fesere.http.HttpVersion;
 
-public class StatusLine {
+public enum  StatusLine {
+
+  OK(200, "OK"),
+  CREATED(201, "Created"),
+  NOT_MODIFIED(204, "Not Modified"),
+
+  MOVED_PERMANENTLY(302, "Moved Permanently"),
+
+  NOT_FOUND(404, "Not Found"),
+  METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+  PRECONDITION_FAILED(412, "Precondition Failed");
+
   private final HttpVersion httpVersion = HttpVersion.HTTP_11;
   private final int status;
   private final String reason;
 
-  public StatusLine(int status, String reason) {
+  private StatusLine(int status, String reason) {
     this.status = status;
     this.reason = reason;
   }
@@ -15,13 +26,6 @@ public class StatusLine {
   public String printable() {
     return httpVersion.printable() + " " + status + " " + reason;
   }
-
-  public static final StatusLine OK = new StatusLine(200, "OK");
-  public static final StatusLine METHOD_NOT_ALLOWED = new StatusLine(405, "Method Not Allowed");
-  public static final StatusLine NOT_FOUND = new StatusLine(404, "Not Found");
-  public static final StatusLine CREATED = new StatusLine(201, "Created");
-  public static final StatusLine PRECONDITION_FAILED = new StatusLine(412, "Precondition Failed");
-  public static final StatusLine NOT_MODIFIED = new StatusLine(204, "Not Modified");
 
   public int getStatusCode() {
     return status;

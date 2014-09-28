@@ -2,14 +2,12 @@ package de.fesere.http.controllers;
 
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
-import de.fesere.http.response.StatusLine;
 import de.fesere.http.vfs.VirtualFileSystem;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import static de.fesere.http.response.StatusLine.*;
+import static de.fesere.http.response.StatusLine.OK;
 
 public class FormController extends Controller {
 
@@ -34,7 +32,7 @@ public class FormController extends Controller {
     if (fileSystem.exists("/form")) {
       read.addAll(fileSystem.read("/form"));
     }
-    return new HttpResponse(StatusLine.OK, new HashMap<>(), flatten(read));
+    return new HttpResponse(OK, flatten(read));
   }
 
   @Override

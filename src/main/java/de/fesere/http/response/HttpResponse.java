@@ -14,6 +14,10 @@ public class HttpResponse {
   public  HttpResponse(StatusLine statusLine) {
     this(statusLine, new HashMap<>(), "");
   }
+
+  public HttpResponse(StatusLine statusLine, String body) {
+    this(statusLine, new HashMap<>(), body);
+  }
   public HttpResponse(StatusLine statusLine, Map<String, String> headers, String body) {
     this.statusLine = statusLine;
     this.headers = headers;
@@ -25,7 +29,7 @@ public class HttpResponse {
   }
 
   public String printable() {
-    LinkedList<String> lines = new LinkedList<>();
+    List<String> lines = new LinkedList<>();
     if(body.length() > 0) {
       headers.put("Content-Length", "" + body.length());
     }

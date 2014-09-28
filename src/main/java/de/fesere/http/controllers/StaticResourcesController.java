@@ -6,7 +6,6 @@ import de.fesere.http.response.HttpResponse;
 import de.fesere.http.vfs.VirtualFileSystem;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static de.fesere.http.response.StatusLine.*;
@@ -38,7 +37,7 @@ public class StaticResourcesController extends Controller {
     else {
        lines = vfs.read(path.remainder());
     }
-    return new HttpResponse(OK, new HashMap<>(), flatten(lines));
+    return new HttpResponse(OK, flatten(lines));
   }
 
   @Override

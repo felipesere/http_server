@@ -13,6 +13,7 @@ public class HttpRequest {
     this.headers = headers;
     this.body = body;
   }
+
   public RequestLine getRequestLine() {
     return requestLine;
   }

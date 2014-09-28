@@ -9,12 +9,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class StatusLineTest {
 
   @Test
-  public void correctlyFormatedOutput() {
-    StatusLine line = new StatusLine(123, "Sentinel Value");
-    assertThat(line.printable(), is("HTTP/1.1 123 Sentinel Value"));
-  }
-
-  @Test
   public void formatConstants() {
     assertThat(OK.printable(), is("HTTP/1.1 200 OK"));
     assertThat(CREATED.printable(), is("HTTP/1.1 201 Created"));
