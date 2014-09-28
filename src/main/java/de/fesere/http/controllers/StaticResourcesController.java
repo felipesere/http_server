@@ -2,12 +2,13 @@ package de.fesere.http.controllers;
 
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
-import de.fesere.http.response.StatusLine;
 import de.fesere.http.vfs.VirtualFileSystem;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.HashMap;
 import java.util.List;
+
+import static de.fesere.http.response.StatusLine.*;
 
 public class StaticResourcesController extends Controller {
 
@@ -36,7 +37,7 @@ public class StaticResourcesController extends Controller {
     else {
        lines = vfs.read(remainder(path));
     }
-    return new HttpResponse(StatusLine.OK, new HashMap<>(), flatten(lines));
+    return new HttpResponse(OK, new HashMap<>(), flatten(lines));
   }
 
   @Override
@@ -45,9 +46,9 @@ public class StaticResourcesController extends Controller {
     String file = flatten(vfs.read(request.getRequestLine().getPath()));
     if(inSha1.equals(calculateSHA1(file))) {
       vfs.writeTo(request.getRequestLine().getPath(), request.getBody());
-      return new HttpResponse(new StatusLine(204, "Not Modified"));
+      return new HttpResponse(NOT_MODIFIED);
     } else {
-      return new HttpResponse(StatusLine.OK);
+      return new HttpResponse(PRECONDITION_FAILED);
     }
   }
 

@@ -55,8 +55,4 @@ public class HttpResponse {
   public String getBody() {
     return body;
   }
-
-  public Map<String, String> getHeaders() {
-    return headers;
-  }
 }
