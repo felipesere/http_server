@@ -13,7 +13,10 @@ public enum  StatusLine {
 
   NOT_FOUND(404, "Not Found"),
   METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
-  PRECONDITION_FAILED(412, "Precondition Failed");
+  PRECONDITION_FAILED(412, "Precondition Failed"),
+  BAD_REQUEST(400, "Bad Request"),
+  OUT_OF_RANGE(416,"Range not satisfiable");
+
 
   private final HttpVersion httpVersion = HttpVersion.HTTP_11;
   private final int status;

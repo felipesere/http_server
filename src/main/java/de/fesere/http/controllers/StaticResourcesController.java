@@ -39,7 +39,7 @@ public class StaticResourcesController extends Controller {
       lines = vfs.read(path.remainder());
       Range range = new Range();
       if (range.hasRangeHeader(request)) {
-        return range.handleRangeRequest(request.getHeaders().get("Range"), lines);
+        return range.handleRangeRequest(request.getHeaders().get("Range"), flatten(lines));
       }
     }
     return response(OK).withBody(lines).build();
