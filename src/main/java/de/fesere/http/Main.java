@@ -1,9 +1,6 @@
 package de.fesere.http;
 
-import de.fesere.http.controllers.FormController;
-import de.fesere.http.controllers.MethodOptionsController;
-import de.fesere.http.controllers.RedirectController;
-import de.fesere.http.controllers.StaticResourcesController;
+import de.fesere.http.controllers.*;
 import de.fesere.http.router.Router;
 import de.fesere.http.vfs.VirtualFileSystem;
 
@@ -27,6 +24,7 @@ public class Main {
     router.register("/form", new FormController(vfs));
     router.register("/method_options", new MethodOptionsController());
     router.register("/redirect", new RedirectController());
+    router.register("/parameters", new ParameterController());
 
     try {
       final ExecutorService executorService = Executors.newFixedThreadPool(30);
