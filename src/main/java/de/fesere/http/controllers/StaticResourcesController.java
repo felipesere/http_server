@@ -1,6 +1,6 @@
 package de.fesere.http.controllers;
 
-import de.fesere.http.Range;
+import de.fesere.http.response.Range;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.request.Path;
 import de.fesere.http.response.HttpResponse;

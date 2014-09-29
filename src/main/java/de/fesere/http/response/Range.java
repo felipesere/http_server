@@ -1,7 +1,6 @@
-package de.fesere.http;
+package de.fesere.http.response;
 
 import de.fesere.http.request.HttpRequest;
-import de.fesere.http.response.HttpResponse;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

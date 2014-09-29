@@ -6,8 +6,8 @@ import de.fesere.http.vfs.VirtualFileSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.fesere.http.Method.GET;
-import static de.fesere.http.Method.PATCH;
+import static de.fesere.http.request.Method.GET;
+import static de.fesere.http.request.Method.PATCH;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasBody;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasStatusCode;
 import static de.fesere.http.request.HttpRequest.*;

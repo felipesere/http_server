@@ -1,7 +1,5 @@
 package de.fesere.http.request;
 
-import de.fesere.http.Method;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

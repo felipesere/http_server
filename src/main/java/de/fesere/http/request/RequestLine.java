@@ -1,7 +1,6 @@
 package de.fesere.http.request;
 
 import de.fesere.http.HttpVersion;
-import de.fesere.http.Method;
 
 public class RequestLine {
   private final Method method;
