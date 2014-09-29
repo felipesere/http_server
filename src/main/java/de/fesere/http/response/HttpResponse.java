@@ -1,5 +1,7 @@
 package de.fesere.http.response;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class HttpResponse {
   public static ResponseBuilder response(StatusLine line) {
     return new ResponseBuilder(line);
   }
+
   private HttpResponse(StatusLine statusLine, Map<String, String> headers, String body) {
     this.statusLine = statusLine;
     this.headers = headers;
@@ -95,11 +98,7 @@ public class HttpResponse {
     }
 
     private String flatten(List<String> read) {
-      String result = "";
-      for (String line : read) {
-        result += line + "\n";
-      }
-      return result;
+      return StringUtils.join(read, "\n");
     }
   }
 }
