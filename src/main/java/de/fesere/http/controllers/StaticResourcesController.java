@@ -1,5 +1,6 @@
 package de.fesere.http.controllers;
 
+import de.fesere.http.Range;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.request.Path;
 import de.fesere.http.response.HttpResponse;
@@ -32,18 +33,23 @@ public class StaticResourcesController extends Controller {
   public HttpResponse doGet(HttpRequest request) {
     Path path = request.getPath();
     List<String> lines;
-    if(path.isRoot()) {
+    if (path.isRoot()) {
       lines = vfs.listFiles();
-    }
-    else {
-       lines = vfs.read(path.remainder());
+    } else {
+      lines = vfs.read(path.remainder());
+      Range range = new Range();
+      if (range.hasRangeHeader(request)) {
+        return range.handleRangeRequest(request.getHeaders().get("Range"), lines);
+      }
     }
     return response(OK).withBody(lines).build();
   }
 
+
+
   @Override
   public HttpResponse doPatch(HttpRequest request) {
-    if(sha1matchesCurrentContent(request)) {
+    if (sha1matchesCurrentContent(request)) {
       vfs.writeTo(request.getPath().getFullpath(), request.getBody());
       return response(NOT_MODIFIED).build();
     } else {

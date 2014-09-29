@@ -7,6 +7,7 @@ public enum  StatusLine {
   OK(200, "OK"),
   CREATED(201, "Created"),
   NOT_MODIFIED(204, "Not Modified"),
+  PARTIAL_CONTENT(206, "Partial Content"),
 
   MOVED_PERMANENTLY(302, "Moved Permanently"),
 
