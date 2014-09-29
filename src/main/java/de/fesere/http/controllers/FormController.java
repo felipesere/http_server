@@ -33,7 +33,7 @@ public class FormController extends Controller {
     if (fileSystem.exists("/form")) {
       read.addAll(fileSystem.read("/form"));
     }
-    return response(OK).withBody(flatten(read)).build();
+    return response(OK).withBody(read).build();
   }
 
   @Override
@@ -46,13 +46,5 @@ public class FormController extends Controller {
   public HttpResponse doDelete(HttpRequest request) {
     fileSystem.delete("/form");
     return response(OK).build();
-  }
-
-  private String flatten(List<String> read) {
-    String result = "";
-    for (String line : read) {
-      result += line + "\n";
-    }
-    return result;
   }
 }

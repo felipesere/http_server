@@ -38,7 +38,7 @@ public class StaticResourcesController extends Controller {
     else {
        lines = vfs.read(path.remainder());
     }
-    return response(OK).withBody(flatten(lines)).build();
+    return response(OK).withBody(lines).build();
   }
 
   @Override
@@ -56,7 +56,6 @@ public class StaticResourcesController extends Controller {
     String inSha1 = request.getHeaders().get("If-Match");
     String filePath = request.getPath().getFullpath();
     String file = flatten(vfs.read(filePath));
-
     return calculateSHA1(file).equals(inSha1);
   }
 

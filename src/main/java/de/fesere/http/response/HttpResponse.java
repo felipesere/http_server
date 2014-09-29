@@ -68,7 +68,7 @@ public class HttpResponse {
 
   public static class ResponseBuilder {
     private final StatusLine status;
-    private Map<String, String> header = new HashMap<>();
+    private final Map<String, String> header = new HashMap<>();
     private String body = "";
 
     public ResponseBuilder(StatusLine status) {
@@ -85,8 +85,21 @@ public class HttpResponse {
       return this;
     }
 
+    public ResponseBuilder withBody(List<String> body) {
+      this.body = flatten(body);
+      return this;
+    }
+
     public HttpResponse build() {
      return new HttpResponse(status, header, body);
+    }
+
+    private String flatten(List<String> read) {
+      String result = "";
+      for (String line : read) {
+        result += line + "\n";
+      }
+      return result;
     }
   }
 }
