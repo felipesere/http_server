@@ -1,21 +1,16 @@
 package de.fesere.http.controllers;
 
 import de.fesere.http.request.HttpRequest;
-import de.fesere.http.request.RequestLine;
 import de.fesere.http.response.HttpResponse;
 import de.fesere.http.vfs.VirtualFileSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
-import static de.fesere.http.HttpVersion.HTTP_11;
 import static de.fesere.http.Method.GET;
 import static de.fesere.http.Method.PATCH;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasBody;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasStatusCode;
+import static de.fesere.http.request.HttpRequest.*;
 import static de.fesere.http.request.Path.path;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.*;
@@ -30,14 +25,15 @@ public class StaticResourcesControllerTest {
   public void setup() {
     vfs.clear();
   }
+
   @Test
   public void testReadDirectoryListings() {
     vfs.create("/file1");
     vfs.create("/file2");
     vfs.create("/file3");
 
-    Controller controller = new StaticResourcesController(vfs);
-    assertThat(controller.doGet(request("/")), hasBody(allOf(containsString("/file1"), containsString("/file2"), containsString("/file3"))));
+    HttpRequest httpRequest = request(GET, "/").build();
+    assertThat(controller.doGet(httpRequest), hasBody(allOf(containsString("/file1"), containsString("/file2"), containsString("/file3"))));
   }
 
   @Test
@@ -45,8 +41,10 @@ public class StaticResourcesControllerTest {
     vfs.create("/file1");
     vfs.writeTo("/file1", asList("Foo", "Bar"));
 
+    HttpRequest httpRequest = request(GET, "/file1").build();
+
     assertThat(controller.canHandle(path("/file1")), is(true));
-    assertThat(controller.doGet(request("/file1")), hasBody(allOf(containsString("Foo"), containsString("Bar"))));
+    assertThat(controller.doGet(httpRequest), hasBody(allOf(containsString("Foo"), containsString("Bar"))));
   }
 
   @Test
@@ -54,11 +52,9 @@ public class StaticResourcesControllerTest {
     vfs.create("/patch-file");
     vfs.writeTo("/patch-file", asList("FooBar"));
 
-    Map<String, String> header = new HashMap<>();
-    header.put("If-Match","23f34863c9bdba4c7126e6872f16969496c798f6");
-    HttpRequest request = new HttpRequest(new RequestLine(PATCH, "/patch-file",HTTP_11), header, asList("BarCamp"));
+    HttpRequest httpRequest = request(PATCH, "/patch-file").addHeader("If-Match", "23f34863c9bdba4c7126e6872f16969496c798f6").withBody("BarCamp").build();
 
-    HttpResponse response = controller.doPatch(request);
+    HttpResponse response = controller.doPatch(httpRequest);
     assertThat(response, hasStatusCode(204));
     assertThat(vfs.read("/patch-file"), hasItem("BarCamp"));
   }
@@ -68,11 +64,9 @@ public class StaticResourcesControllerTest {
     vfs.create("/patch-file");
     vfs.writeTo("/patch-file", asList("FooBar"));
 
-    Map<String, String> header = new HashMap<>();
-    header.put("If-Match","23f34863c9bdba4c712");
-    HttpRequest request = new HttpRequest(new RequestLine(PATCH, "/patch-file",HTTP_11), header, asList("BarCamp"));
+    HttpRequest httpRequest = request(PATCH, "/patch-file").addHeader("If-Match", "92874bckdgf3y9e23ydbcsdkj").withBody("BarCamp").build();
 
-    HttpResponse response = controller.doPatch(request);
+    HttpResponse response = controller.doPatch(httpRequest);
     assertThat(response, hasStatusCode(412));
     assertThat(vfs.read("/patch-file"), hasItem("FooBar"));
   }
@@ -82,17 +76,10 @@ public class StaticResourcesControllerTest {
     vfs.create("/partial-content.txt");
     vfs.writeTo("/partial-content.txt", asList("This is a file that contains text to read part of in order to fulfill a 206."));
 
+    HttpRequest httpRequest = request(GET, "/partial-content.txt").addHeader("Range", "bytes=0-4").build();
 
-    Map<String, String> header = new HashMap<>();
-    header.put("Range","bytes=0-4");
-    HttpRequest request = new HttpRequest(new RequestLine(GET, "/partial-content.txt",HTTP_11), header, asList(""));
-
-    HttpResponse response = controller.doGet(request);
+    HttpResponse response = controller.doGet(httpRequest);
     assertThat(response, hasStatusCode(206));
-    assertThat(response, hasBody(equalTo("This\n")));
-  }
-
-  private HttpRequest request(String path) {
-    return new HttpRequest(new RequestLine(GET, path, HTTP_11), new HashMap<>(), new LinkedList<>());
+    assertThat(response, hasBody(equalTo("This")));
   }
 }

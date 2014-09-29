@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import static de.fesere.http.HttpVersion.HTTP_11;
+import static java.util.Arrays.asList;
 
 public class HttpRequest {
   private final RequestLine requestLine;
@@ -63,6 +64,11 @@ public class HttpRequest {
 
     public HttpRequest build() {
       return new HttpRequest(new RequestLine(method, path, HTTP_11), headers, body);
+    }
+
+    public RequestBuilder withBody(String body) {
+      withBody(asList(body));
+      return this;
     }
   }
 }

@@ -13,7 +13,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 public class StreamingParserTest {
 
   @Test
-  public void cnaReadAGETrequest() {
+  public void canReadAGETrequest() {
     InputStream inputStream = getClass().getResourceAsStream("/requests/get.txt");
     StreamingParser parser = new StreamingParser(inputStream);
     HttpRequest request = parser.read();
