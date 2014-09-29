@@ -7,6 +7,7 @@ import de.fesere.http.vfs.VirtualFileSystem;
 import java.util.LinkedList;
 import java.util.List;
 
+import static de.fesere.http.response.HttpResponse.response;
 import static de.fesere.http.response.StatusLine.OK;
 
 public class FormController extends Controller {
@@ -23,7 +24,7 @@ public class FormController extends Controller {
     fileSystem.delete("/form");
     fileSystem.create("/form");
     fileSystem.writeTo("/form", request.getBody());
-    return new HttpResponse(OK);
+    return response(OK).build();
   }
 
   @Override
@@ -32,19 +33,19 @@ public class FormController extends Controller {
     if (fileSystem.exists("/form")) {
       read.addAll(fileSystem.read("/form"));
     }
-    return new HttpResponse(OK, flatten(read));
+    return response(OK).withBody(flatten(read)).build();
   }
 
   @Override
   public HttpResponse doPut(HttpRequest request) {
     fileSystem.writeTo("/form", request.getBody());
-    return new HttpResponse(OK);
+    return response(OK).build();
   }
 
   @Override
   public HttpResponse doDelete(HttpRequest request) {
     fileSystem.delete("/form");
-    return new HttpResponse(OK);
+    return response(OK).build();
   }
 
   private String flatten(List<String> read) {

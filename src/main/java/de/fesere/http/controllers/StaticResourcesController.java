@@ -8,6 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
 
+import static de.fesere.http.response.HttpResponse.response;
 import static de.fesere.http.response.StatusLine.*;
 
 public class StaticResourcesController extends Controller {
@@ -37,20 +38,26 @@ public class StaticResourcesController extends Controller {
     else {
        lines = vfs.read(path.remainder());
     }
-    return new HttpResponse(OK, flatten(lines));
+    return response(OK).withBody(flatten(lines)).build();
   }
 
   @Override
   public HttpResponse doPatch(HttpRequest request) {
+    if(sha1matchesCurrentContent(request)) {
+      vfs.writeTo(request.getPath().getFullpath(), request.getBody());
+      return response(NOT_MODIFIED).build();
+    } else {
+      return response(PRECONDITION_FAILED).build();
+    }
+  }
+
+
+  public boolean sha1matchesCurrentContent(HttpRequest request) {
     String inSha1 = request.getHeaders().get("If-Match");
     String filePath = request.getPath().getFullpath();
     String file = flatten(vfs.read(filePath));
-    if(inSha1.equals(calculateSHA1(file))) {
-      vfs.writeTo(filePath, request.getBody());
-      return new HttpResponse(NOT_MODIFIED);
-    } else {
-      return new HttpResponse(PRECONDITION_FAILED);
-    }
+
+    return calculateSHA1(file).equals(inSha1);
   }
 
   private String calculateSHA1(String input) {

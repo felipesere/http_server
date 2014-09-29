@@ -4,11 +4,12 @@ import de.fesere.http.request.HttpRequest;
 import de.fesere.http.request.Path;
 import de.fesere.http.response.HttpResponse;
 
+import static de.fesere.http.response.HttpResponse.response;
 import static de.fesere.http.response.StatusLine.METHOD_NOT_ALLOWED;
 
 public class Controller {
 
-  private final HttpResponse methodNotAllowed = new HttpResponse(METHOD_NOT_ALLOWED);
+  private final HttpResponse methodNotAllowed = response(METHOD_NOT_ALLOWED).build();
 
   
   public HttpResponse doPost(HttpRequest request) {

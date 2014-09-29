@@ -3,10 +3,11 @@ package de.fesere.http.controllers;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
 
+import static de.fesere.http.response.HttpResponse.response;
 import static de.fesere.http.response.StatusLine.NOT_FOUND;
 
 public class NotFoundController extends Controller {
-  private final HttpResponse notFound = new HttpResponse(NOT_FOUND);
+  private final HttpResponse notFound = response(NOT_FOUND).build();
   @Override
   public HttpResponse doPost(HttpRequest request) {
     return notFound;
