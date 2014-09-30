@@ -1,10 +1,10 @@
 package de.fesere.http.response;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static de.fesere.http.Utils.flatten;
 
 public class ResponseBuilder {
   private final StatusLine status;
@@ -25,7 +25,7 @@ public class ResponseBuilder {
   }
 
   public ResponseBuilder withBody(List<String> body) {
-    return withBody(flatten(body).getBytes());
+    return withBody(flatten(body, "\n").getBytes());
   }
 
   public ResponseBuilder withBody(byte[] bytes) {
@@ -35,9 +35,5 @@ public class ResponseBuilder {
 
   public HttpResponse build() {
     return new HttpResponse(status, header, body);
-  }
-
-  private String flatten(List<String> read) {
-    return StringUtils.join(read, "\n");
   }
 }

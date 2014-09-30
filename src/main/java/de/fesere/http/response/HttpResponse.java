@@ -2,9 +2,10 @@ package de.fesere.http.response;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static de.fesere.http.Utils.flatten;
 
 public class HttpResponse {
 
@@ -41,20 +42,8 @@ public class HttpResponse {
     return body.length > 0;
   }
 
-  private List<String> flatten(Map<String, String> headers) {
-    List<String> result = new LinkedList<>();
-    for (Map.Entry<String, String> header : headers.entrySet()) {
-      result.add(header.getKey() + ": " + header.getValue());
-    }
-    return result;
-  }
-
   private String merge(List<String> lines) {
-    String result = "";
-    for (String line : lines) {
-      result += line + CRLF;
-    }
-    return result;
+    return flatten(lines, CRLF);
   }
 
   public String getBody() {
@@ -64,7 +53,7 @@ public class HttpResponse {
   public byte[] toBytes() {
     addContentLength();
     byte[] statusBytes = statusLine.printable().getBytes();
-    byte[] headerBytes = merge(flatten(headers)).getBytes();
+    byte[] headerBytes = merge(flatten(headers, ": ")).getBytes();
     byte[] crlfBytes   = CRLF.getBytes();
 
     int bufferSize = statusBytes.length +
