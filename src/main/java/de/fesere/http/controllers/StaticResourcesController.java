@@ -35,6 +35,8 @@ public class StaticResourcesController extends Controller {
     List<String> lines;
     if (path.isRoot()) {
       lines = vfs.listFiles();
+    } else if (isImage(path)) {
+      return response(OK).withBody(vfs.getRawBytes(path.getFullpath())).build();
     } else {
       lines = vfs.read(path.remainder());
       Range range = new Range();
@@ -45,6 +47,10 @@ public class StaticResourcesController extends Controller {
     return response(OK).withBody(lines).build();
   }
 
+  private boolean isImage(Path path) {
+    String fullPath = path.getFullpath();
+    return fullPath.endsWith(".jpeg") || fullPath.endsWith(".png") || fullPath.endsWith(".gif");
+  }
 
 
   @Override

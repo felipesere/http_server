@@ -15,10 +15,12 @@ import java.util.concurrent.Executors;
 public class Main {
   public static void main(String[] args) {
     Map<String, String> arguments = parseArgs(args);
-    VirtualFileSystem vfs = new VirtualFileSystem();
-    if(arguments.containsKey("-d")) {
-      vfs.preload(arguments.get("-d"));
+    if(!arguments.containsKey("-d")) {
+      throw new RuntimeException("No root folder provided!");
     }
+    VirtualFileSystem vfs = new VirtualFileSystem(arguments.get("-d"));
+    vfs.preload();
+
     Router router = new Router();
     router.rootCoontroler(new StaticResourcesController(vfs));
     router.register("/form", new FormController(vfs));

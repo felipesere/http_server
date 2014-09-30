@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class StaticResourcesControllerTest {
 
-  private final VirtualFileSystem vfs = new VirtualFileSystem();
+  private final VirtualFileSystem vfs = new VirtualFileSystem("/");
   private final Controller controller = new StaticResourcesController(vfs);
 
   @Before

@@ -3,9 +3,13 @@ package de.fesere.http.vfs;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,7 +17,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 public class VirtualFileSystemTest {
 
-  private final VirtualFileSystem vfs = new VirtualFileSystem();
+  private final VirtualFileSystem vfs = new VirtualFileSystem("src/test/resources/public");
 
   @Before
   public void setup() {
@@ -66,7 +70,17 @@ public class VirtualFileSystemTest {
 
   @Test
   public void canBePreloadedFromFileSystem() {
-    vfs.preload("src/test/resources/public");
+    vfs.preload();
     assertThat(vfs.listFiles(), hasItems("/file1.txt", "/file2.txt"));
+  }
+
+  @Test
+  public void canAccessUnderlyingFileSystem() throws IOException {
+    byte [] imageBytes = getBytes("/public/server_sample_image.jpeg");
+    assertThat(vfs.getRawBytes("/server_sample_image.jpeg"), is(equalTo(imageBytes)));
+  }
+
+  private byte[] getBytes(String name) throws IOException {
+    return Files.readAllBytes(Paths.get(getClass().getResource(name).getPath()));
   }
 }

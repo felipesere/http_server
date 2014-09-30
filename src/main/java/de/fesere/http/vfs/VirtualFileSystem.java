@@ -2,13 +2,21 @@ package de.fesere.http.vfs;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
 public class VirtualFileSystem {
   private final Map<String, List<String>> files = Collections.synchronizedMap(new HashMap<>());
+  private String folderPath;
+
+  public VirtualFileSystem(String root) {
+    this.folderPath = root;
+  }
   public boolean exists(String path) {
     return files.containsKey(path);
   }
@@ -32,7 +40,7 @@ public class VirtualFileSystem {
   }
 
   private void failWhenFileMissing(String path) {
-    if(!files.containsKey(path)) {
+    if (!files.containsKey(path)) {
       throw new FileDoesNotExistException(path);
     }
   }
@@ -45,9 +53,9 @@ public class VirtualFileSystem {
     return new LinkedList<>(files.keySet());
   }
 
-  public void preload(String folderPath) {
+  public void preload() {
     File directory = resolveFile(folderPath);
-    for(File file : directory.listFiles()) {
+    for (File file : directory.listFiles()) {
       tryAddFile(file);
     }
   }
@@ -61,15 +69,38 @@ public class VirtualFileSystem {
   }
 
   private File resolveFile(String folderPath) {
-    if(!folderPath.startsWith("/")) {
-      Path workingDirectory = Paths.get("").toAbsolutePath();
+    if (!folderPath.startsWith("/")) {
+      Path workingDirectory = getWorkingDirectory();
       return workingDirectory.resolve(folderPath).toFile();
     } else {
       return Paths.get(folderPath).toFile();
     }
   }
 
+  private Path getWorkingDirectory() {
+    return Paths.get("").toAbsolutePath();
+  }
+
+  private Path getRootFolder() {
+    return getWorkingDirectory().resolve(folderPath);
+  }
+
   private List<String> read(File file) throws IOException {
     return IOUtils.readLines(new FileInputStream(file));
+  }
+
+  public byte[] getRawBytes(String path) {
+    Path root = getRootFolder();
+    path = makeRelative(path);
+    try {
+      Path targetPath = root.resolve(path);
+      return Files.readAllBytes(targetPath);
+    } catch (IOException e) {
+     throw new RuntimeException(e);
+    }
+  }
+
+  private String makeRelative(String path) {
+    return path.replaceFirst("/","");
   }
 }
