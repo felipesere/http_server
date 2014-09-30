@@ -26,7 +26,7 @@ public class StreamingParser {
     this.reader = new BufferedReader(new InputStreamReader(inputStream));
   }
 
-  public HttpRequest read() {
+  public HttpRequest readRequest() {
     try {
       RequestLine requestLine = readRequestLine();
       Map<String, String> headers = readHeaders(reader);

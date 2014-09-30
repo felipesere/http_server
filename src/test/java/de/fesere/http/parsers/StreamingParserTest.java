@@ -16,7 +16,7 @@ public class StreamingParserTest {
   public void canReadAGETrequest() {
     InputStream inputStream = getClass().getResourceAsStream("/requests/get.txt");
     StreamingParser parser = new StreamingParser(inputStream);
-    HttpRequest request = parser.read();
+    HttpRequest request = parser.readRequest();
 
     assertThat(request.getRequestLine().getHttpVersion(), is(HTTP_11));
     assertThat(request.getHeaders().values(), hasSize(2));
@@ -26,7 +26,7 @@ public class StreamingParserTest {
   public void canReadAPostRequest() {
     InputStream inputStream = getClass().getResourceAsStream("/requests/post.txt");
     StreamingParser parser = new StreamingParser(inputStream);
-    HttpRequest request = parser.read();
+    HttpRequest request = parser.readRequest();
 
     assertThat(request.getRequestLine().getHttpVersion(), is(HTTP_11));
     assertThat(request.getHeaders().values(), hasSize(4));

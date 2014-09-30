@@ -1,8 +1,7 @@
-package de.fesere.http.router;
+package de.fesere.http.controllers;
 
-import de.fesere.http.controllers.Controller;
-import de.fesere.http.request.Method;
 import de.fesere.http.request.HttpRequest;
+import de.fesere.http.request.Method;
 import de.fesere.http.response.HttpResponse;
 
 public class MethodDispatcher {

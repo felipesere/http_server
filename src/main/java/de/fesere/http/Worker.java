@@ -4,7 +4,6 @@ import de.fesere.http.controllers.Controller;
 import de.fesere.http.parsers.StreamingParser;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
-import de.fesere.http.router.MethodDispatcher;
 import de.fesere.http.router.Router;
 
 import java.io.BufferedOutputStream;
@@ -14,33 +13,37 @@ import java.net.Socket;
 public class Worker implements Runnable {
   private final Router router;
   private final Socket clientSocket;
-  private final MethodDispatcher dispatcher;
+  private StreamingParser parser;
+  private BufferedOutputStream bos;
 
   public Worker(Socket clientSocket, Router router) {
     this.clientSocket = clientSocket;
     this.router = router;
-    this.dispatcher = new MethodDispatcher();
   }
 
   @Override
   public void run() {
     try {
-      StreamingParser parser = new StreamingParser(clientSocket.getInputStream());
-      HttpRequest httpRequest = parser.read();
+      parser = new StreamingParser(clientSocket.getInputStream());
 
-      HttpResponse response = processController(httpRequest);
+      HttpRequest httpRequest = parser.readRequest();
+      HttpResponse response = process(httpRequest);
 
-      BufferedOutputStream bos = new BufferedOutputStream(clientSocket.getOutputStream());
-      bos.write(response.toBytes());
-      bos.flush();
+      sendResponse(response);
 
       clientSocket.close();
     } catch (IOException e) {
     }
   }
 
-  private HttpResponse processController(HttpRequest httpRequest) {
+  private void sendResponse(HttpResponse response) throws IOException {
+    bos = new BufferedOutputStream(clientSocket.getOutputStream());
+    bos.write(response.toBytes());
+    bos.flush();
+  }
+
+  private HttpResponse process(HttpRequest httpRequest) {
     Controller controller = router.controllerFor(httpRequest.getPath());
-    return dispatcher.dispatch(controller, httpRequest);
+    return controller.dispatch(httpRequest);
   }
 }
