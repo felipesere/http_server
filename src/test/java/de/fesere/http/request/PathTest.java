@@ -10,6 +10,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsMapContaining.hasEntry;
 
 public class PathTest {
+
+  @Test
+  public void rootPaths() {
+    Path path = new Path("/");
+    assertThat(path.isRoot(), is(true));
+    assertThat(path.getBase(), is("/"));
+    assertThat(path.getRemainder(), is("/"));
+  }
+
+  @Test
+  public void remainderIsEverythingPastSecondSlash() {
+    Path path = new Path("/foo/bar");
+    assertThat(path.getRemainder(), is("/bar"));
+    assertThat(path.getBase(), is("/foo"));
+  }
+
   @Test
   public void ignoresQueryParametersForBase() {
     Path path = new Path("/parameters?foo=bar");

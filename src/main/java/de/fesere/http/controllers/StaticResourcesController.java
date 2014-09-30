@@ -9,6 +9,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
 
+import static de.fesere.http.Utils.flatten;
 import static de.fesere.http.response.HttpResponse.response;
 import static de.fesere.http.response.StatusLine.*;
 
@@ -26,7 +27,7 @@ public class StaticResourcesController extends Controller {
   }
 
   private boolean fileExists(Path path) {
-    return vfs.listFiles().contains(path.remainder());
+    return vfs.listFiles().contains(path.getRemainder());
   }
 
   @Override
@@ -43,16 +44,17 @@ public class StaticResourcesController extends Controller {
 
   private HttpResponse responseForText(HttpRequest request, Path path) {
     List<String> lines;
-    lines = vfs.read(path.remainder());
+    lines = vfs.read(path.getRemainder());
     Range range = new Range();
     if (range.hasRangeHeader(request)) {
-      return range.handleRangeRequest(request.getHeaders().get("Range"), flatten(lines));
+      return range.handleRangeRequest(request.getHeaders().get("Range"), flatten(lines, "\n"));
     }
     return response(OK).withBody(lines).build();
   }
 
   private HttpResponse responseForImage(Path path) {
-    return response(OK).withBody(vfs.getRawBytes(path.getFullpath())).build();
+    byte[] fileContent = vfs.getRawBytes(path.getFullpath());
+    return response(OK).withBody(fileContent).build();
   }
 
   private HttpResponse responseForAllLines() {
@@ -81,19 +83,11 @@ public class StaticResourcesController extends Controller {
   public boolean sha1matchesCurrentContent(HttpRequest request) {
     String inSha1 = request.getHeaders().get("If-Match");
     String filePath = request.getPath().getFullpath();
-    String file = flatten(vfs.read(filePath));
+    String file = flatten(vfs.read(filePath), "\n");
     return calculateSHA1(file).equals(inSha1);
   }
 
   private String calculateSHA1(String input) {
     return DigestUtils.sha1Hex(input);
-  }
-
-  private String flatten(List<String> read) {
-    String result = "";
-    for (String line : read) {
-      result += line + "\n";
-    }
-    return result;
   }
 }

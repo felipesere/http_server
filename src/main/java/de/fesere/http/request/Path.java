@@ -10,6 +10,9 @@ import java.util.regex.Pattern;
 public class Path {
 
   private final String path;
+  public static final Pattern PATH_SEGMENT_PATTEN = Pattern.compile("^(/[^/\\?]+)");
+  public static final Pattern QUERY_ELEMENTS = Pattern.compile("([^&=]+)=([^&=]+)");
+  public static final Pattern QUERY_SEGMENT = Pattern.compile(".*\\?([^/]+)");
 
   public static Path path(String path) {
     return new Path(path);
@@ -23,7 +26,7 @@ public class Path {
     return path.equals("/");
   }
 
-  public String remainder() {
+  public String getRemainder() {
     if(isRoot()) {
       return path;
     } else {
@@ -37,7 +40,7 @@ public class Path {
   }
 
   public String getBase() {
-    Matcher matcher = Pattern.compile("^(/[^/\\?]+)").matcher(path);
+    Matcher matcher = PATH_SEGMENT_PATTEN.matcher(path);
     if (!matcher.find()) {
       return path;
     } else {
@@ -50,21 +53,19 @@ public class Path {
   }
 
   public Map<String, String> getQueryParams() {
-    Pattern pattern = Pattern.compile(".*\\?([^/]+)");
-    Matcher m = pattern.matcher(path);
+    Matcher matcher = QUERY_SEGMENT.matcher(path);
     Map<String, String> result = new HashMap<>();
-    if(m.find() ) {
-      return extractQueryParams(m.group(1));
+    if(matcher.find() ) {
+      return extractQueryParams(matcher.group(1));
     }
     return result;
   }
 
   private Map<String, String> extractQueryParams(String queryParams) {
-    Pattern p  = Pattern.compile("([^&=]+)=([^&=]+)");
-    Matcher m = p.matcher(queryParams);
+    Matcher matcher = QUERY_ELEMENTS.matcher(queryParams);
     Map<String, String> result = new HashMap<>();
-    while(m.find()) {
-      result.put(m.group(1), decode(m.group(2)));
+    while(matcher.find()) {
+      result.put(matcher.group(1), decode(matcher.group(2)));
     }
     return result;
   }
