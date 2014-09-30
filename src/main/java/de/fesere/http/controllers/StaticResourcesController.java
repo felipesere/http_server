@@ -32,18 +32,32 @@ public class StaticResourcesController extends Controller {
   @Override
   public HttpResponse doGet(HttpRequest request) {
     Path path = request.getPath();
-    List<String> lines;
     if (path.isRoot()) {
-      lines = vfs.listFiles();
+      return responseForAllLines();
     } else if (isImage(path)) {
-      return response(OK).withBody(vfs.getRawBytes(path.getFullpath())).build();
+      return responseForImage(path);
     } else {
-      lines = vfs.read(path.remainder());
-      Range range = new Range();
-      if (range.hasRangeHeader(request)) {
-        return range.handleRangeRequest(request.getHeaders().get("Range"), flatten(lines));
-      }
+      return responseForText(request, path);
     }
+  }
+
+  private HttpResponse responseForText(HttpRequest request, Path path) {
+    List<String> lines;
+    lines = vfs.read(path.remainder());
+    Range range = new Range();
+    if (range.hasRangeHeader(request)) {
+      return range.handleRangeRequest(request.getHeaders().get("Range"), flatten(lines));
+    }
+    return response(OK).withBody(lines).build();
+  }
+
+  private HttpResponse responseForImage(Path path) {
+    return response(OK).withBody(vfs.getRawBytes(path.getFullpath())).build();
+  }
+
+  private HttpResponse responseForAllLines() {
+    List<String> lines;
+    lines = vfs.listFiles();
     return response(OK).withBody(lines).build();
   }
 
