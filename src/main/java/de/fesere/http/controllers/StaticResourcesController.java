@@ -56,9 +56,9 @@ public class StaticResourcesController extends Controller {
   }
 
   private HttpResponse responseForAllLines() {
-    List<String> lines;
-    lines = vfs.listFiles();
-    return response(OK).withBody(lines).build();
+    List<String> body = vfs.listFiles();
+    HtmlView view = new HtmlView();
+    return response(OK).withBody(view.render(body)).build();
   }
 
   private boolean isImage(Path path) {
