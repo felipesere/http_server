@@ -2,6 +2,7 @@ package de.fesere.http.response;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,9 +33,7 @@ public class HttpResponse {
 
   public String printable() {
     List<String> lines = new LinkedList<>();
-    if(hasBody()) {
-      addContentLength();
-    }
+    addContentLength();
     lines.add(statusLine.printable());
     lines.addAll(flatten(headers));
     lines.add(EMPTY_LINE);
@@ -42,8 +41,10 @@ public class HttpResponse {
     return merge(lines);
   }
 
-  private String addContentLength() {
-    return headers.put("Content-Length", "" + body.length);
+  private void addContentLength() {
+    if (hasBody()) {
+      headers.put("Content-Length", "" + body.length);
+    }
   }
 
   private boolean hasBody() {
@@ -71,7 +72,25 @@ public class HttpResponse {
   }
 
   public byte[] toBytes() {
-    return printable().getBytes();
+    addContentLength();
+    byte[] statusBytes = statusLine.printable().getBytes();
+    byte[] headerBytes = merge(flatten(headers)).getBytes();
+    byte[] crlfBytes   = CRLF.getBytes();
+
+    int bufferSize = statusBytes.length +
+                     headerBytes.length +
+                     body.length +
+                     CRLF.length() * 3;
+    ByteBuffer buffer = ByteBuffer.allocate(bufferSize);
+    buffer.put(statusBytes);
+    buffer.put(crlfBytes);
+    buffer.put(headerBytes);
+    buffer.put(crlfBytes);
+    buffer.put(body);
+    buffer.put(crlfBytes);
+    buffer.flip();
+
+    return buffer.array();
   }
 
   public static class ResponseBuilder {
@@ -84,12 +103,12 @@ public class HttpResponse {
     }
 
     public ResponseBuilder addHeader(String key, String value) {
-      header.put(key,value);
+      header.put(key, value);
       return this;
     }
 
     public ResponseBuilder withBody(String body) {
-     this.body = body;
+      this.body = body;
       return this;
     }
 
@@ -104,7 +123,7 @@ public class HttpResponse {
     }
 
     public HttpResponse build() {
-     return new HttpResponse(status, header, body);
+      return new HttpResponse(status, header, body);
     }
 
     private String flatten(List<String> read) {
