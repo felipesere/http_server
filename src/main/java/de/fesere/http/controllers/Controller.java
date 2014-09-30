@@ -12,7 +12,7 @@ public class Controller {
   private final HttpResponse methodNotAllowed = response(METHOD_NOT_ALLOWED).build();
   private MethodDispatcher dispatcher = new MethodDispatcher();
 
-  public HttpResponse dispatch(HttpRequest request) {
+  public final HttpResponse dispatch(HttpRequest request) {
     return dispatcher.dispatch(this, request);
   }
 

@@ -15,7 +15,8 @@ public enum  StatusLine {
   METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
   PRECONDITION_FAILED(412, "Precondition Failed"),
   BAD_REQUEST(400, "Bad Request"),
-  OUT_OF_RANGE(416,"Range not satisfiable");
+  OUT_OF_RANGE(416,"Range not satisfiable"),
+  UNAUTHORIZED(401,"Unauthorized");
 
 
   private final HttpVersion httpVersion = HttpVersion.HTTP_11;

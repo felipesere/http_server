@@ -24,6 +24,7 @@ public class Main {
     Router router = new Router();
     router.rootCoontroler(new StaticResourcesController(vfs));
     router.register("/form", new FormController(vfs));
+    router.register("/logs", new LogController());
     router.register("/method_options", new MethodOptionsController());
     router.register("/redirect", new RedirectController());
     router.register("/parameters", new ParameterController());
