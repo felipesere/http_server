@@ -1,5 +1,6 @@
-package de.fesere.http.controllers;
+package de.fesere.http.controllers.filesystem;
 
+import de.fesere.http.controllers.Controller;
 import de.fesere.http.response.Range;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.request.Path;
@@ -9,7 +10,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
 
-import static de.fesere.http.Utils.flatten;
+import static de.fesere.http.utils.Utils.flatten;
 import static de.fesere.http.response.HttpResponse.response;
 import static de.fesere.http.response.StatusLine.*;
 

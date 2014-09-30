@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static de.fesere.http.HttpVersion.HTTP_11;
+import static de.fesere.http.request.HttpVersion.HTTP_11;
 import static java.util.Arrays.asList;
 
 public class RequestBuilder {

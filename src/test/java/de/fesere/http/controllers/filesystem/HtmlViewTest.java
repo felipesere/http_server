@@ -1,5 +1,6 @@
-package de.fesere.http.controllers;
+package de.fesere.http.controllers.filesystem;
 
+import de.fesere.http.controllers.filesystem.HtmlView;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;

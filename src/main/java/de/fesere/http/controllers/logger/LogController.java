@@ -1,6 +1,6 @@
-package de.fesere.http.controllers;
+package de.fesere.http.controllers.logger;
 
-import de.fesere.http.Logger;
+import de.fesere.http.controllers.Controller;
 import de.fesere.http.request.Authentication;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;

@@ -4,9 +4,6 @@ import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
 import de.fesere.http.vfs.VirtualFileSystem;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import static de.fesere.http.response.HttpResponse.response;
 import static de.fesere.http.response.StatusLine.OK;
 
@@ -20,8 +17,6 @@ public class FormController extends Controller {
 
   @Override
   public HttpResponse doPost(HttpRequest request) {
-
-    fileSystem.delete("/form");
     fileSystem.create("/form");
     fileSystem.writeTo("/form", request.getBody());
     return response(OK).build();
@@ -29,11 +24,10 @@ public class FormController extends Controller {
 
   @Override
   public HttpResponse doGet(HttpRequest request) {
-    List<String> read = new LinkedList<>();
     if (fileSystem.exists("/form")) {
-      read.addAll(fileSystem.read("/form"));
+      return response(OK).withBody(fileSystem.read("/form")).build();
     }
-    return response(OK).withBody(read).build();
+    return response(OK).build();
   }
 
   @Override

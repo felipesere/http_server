@@ -1,6 +1,6 @@
 package de.fesere.http.parsers;
 
-import de.fesere.http.HttpVersion;
+import de.fesere.http.request.HttpVersion;
 import de.fesere.http.request.Method;
 import de.fesere.http.request.RequestLine;
 

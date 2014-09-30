@@ -1,4 +1,4 @@
-package de.fesere.http;
+package de.fesere.http.utils;
 
 import java.util.LinkedList;
 import java.util.List;

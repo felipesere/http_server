@@ -1,6 +1,8 @@
 package de.fesere.http;
 
 import de.fesere.http.controllers.*;
+import de.fesere.http.controllers.filesystem.StaticResourcesController;
+import de.fesere.http.controllers.logger.LogController;
 import de.fesere.http.router.Router;
 import de.fesere.http.vfs.VirtualFileSystem;
 

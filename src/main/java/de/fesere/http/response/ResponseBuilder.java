@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static de.fesere.http.Utils.flatten;
+import static de.fesere.http.utils.Utils.flatten;
 
 public class ResponseBuilder {
   private final StatusLine status;

@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import static de.fesere.http.Utils.flatten;
+import static de.fesere.http.utils.Utils.flatten;
 
 public class HttpResponse {
 

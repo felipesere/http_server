@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.io.InputStream;
 
-import static de.fesere.http.HttpVersion.HTTP_11;
+import static de.fesere.http.request.HttpVersion.HTTP_11;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;

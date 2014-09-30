@@ -1,6 +1,6 @@
 package de.fesere.http.response;
 
-import de.fesere.http.HttpVersion;
+import de.fesere.http.request.HttpVersion;
 
 public enum  StatusLine {
 
@@ -11,12 +11,13 @@ public enum  StatusLine {
 
   MOVED_PERMANENTLY(302, "Moved Permanently"),
 
+  BAD_REQUEST(400, "Bad Request"),
+  UNAUTHORIZED(401,"Unauthorized"),
   NOT_FOUND(404, "Not Found"),
   METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
   PRECONDITION_FAILED(412, "Precondition Failed"),
-  BAD_REQUEST(400, "Bad Request"),
   OUT_OF_RANGE(416,"Range not satisfiable"),
-  UNAUTHORIZED(401,"Unauthorized");
+  ;
 
 
   private final HttpVersion httpVersion = HttpVersion.HTTP_11;

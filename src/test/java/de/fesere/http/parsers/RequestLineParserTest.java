@@ -3,7 +3,7 @@ package de.fesere.http.parsers;
 import de.fesere.http.request.RequestLine;
 import org.junit.Test;
 
-import static de.fesere.http.HttpVersion.HTTP_11;
+import static de.fesere.http.request.HttpVersion.HTTP_11;
 import static de.fesere.http.request.Method.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

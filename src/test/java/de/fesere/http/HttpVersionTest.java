@@ -1,8 +1,9 @@
 package de.fesere.http;
 
+import de.fesere.http.request.HttpVersion;
 import org.junit.Test;
 
-import static de.fesere.http.HttpVersion.HTTP_11;
+import static de.fesere.http.request.HttpVersion.HTTP_11;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 

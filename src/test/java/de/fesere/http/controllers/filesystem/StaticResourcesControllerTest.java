@@ -1,5 +1,7 @@
-package de.fesere.http.controllers;
+package de.fesere.http.controllers.filesystem;
 
+import de.fesere.http.controllers.Controller;
+import de.fesere.http.controllers.filesystem.StaticResourcesController;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
 import de.fesere.http.vfs.VirtualFileSystem;
