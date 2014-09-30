@@ -1,9 +1,7 @@
 package de.fesere.http.response;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.nio.ByteBuffer;
-import java.util.HashMap;
+import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +9,6 @@ import java.util.Map;
 public class HttpResponse {
 
   public static final String CRLF = "\r\n";
-  public static final String EMPTY_LINE = "";
   private final StatusLine statusLine;
   private final Map<String, String> headers;
   private final byte[] body;
@@ -20,7 +17,7 @@ public class HttpResponse {
     return new ResponseBuilder(line);
   }
 
-  private HttpResponse(StatusLine statusLine, Map<String, String> headers, byte [] body) {
+  public HttpResponse(StatusLine statusLine, Map<String, String> headers, byte[] body) {
     this.statusLine = statusLine;
     this.headers = headers;
     this.body = body;
@@ -31,13 +28,7 @@ public class HttpResponse {
   }
 
   public String printable() {
-    List<String> lines = new LinkedList<>();
-    addContentLength();
-    lines.add(statusLine.printable());
-    lines.addAll(flatten(headers));
-    lines.add(EMPTY_LINE);
-    lines.add(getBody());
-    return merge(lines);
+    return new String(toBytes(), Charset.defaultCharset());
   }
 
   private void addContentLength() {
@@ -90,41 +81,5 @@ public class HttpResponse {
     buffer.flip();
 
     return buffer.array();
-  }
-
-  public static class ResponseBuilder {
-    private final StatusLine status;
-    private final Map<String, String> header = new HashMap<>();
-    private byte[] body = new byte[0];
-
-    public ResponseBuilder(StatusLine status) {
-      this.status = status;
-    }
-
-    public ResponseBuilder addHeader(String key, String value) {
-      header.put(key, value);
-      return this;
-    }
-
-    public ResponseBuilder withBody(String body) {
-      return withBody(body.getBytes());
-    }
-
-    public ResponseBuilder withBody(List<String> body) {
-      return withBody(flatten(body).getBytes());
-    }
-
-    public ResponseBuilder withBody(byte[] bytes) {
-      this.body = bytes;
-      return this;
-    }
-
-    public HttpResponse build() {
-      return new HttpResponse(status, header, body);
-    }
-
-    private String flatten(List<String> read) {
-      return StringUtils.join(read, "\n");
-    }
   }
 }
