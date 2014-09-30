@@ -3,7 +3,6 @@ package de.fesere.http.response;
 import org.apache.commons.lang.StringUtils;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,10 +20,10 @@ public class HttpResponse {
     return new ResponseBuilder(line);
   }
 
-  private HttpResponse(StatusLine statusLine, Map<String, String> headers, String body) {
+  private HttpResponse(StatusLine statusLine, Map<String, String> headers, byte [] body) {
     this.statusLine = statusLine;
     this.headers = headers;
-    this.body = body.getBytes();
+    this.body = body;
   }
 
   public int getStatusCode() {
@@ -96,7 +95,7 @@ public class HttpResponse {
   public static class ResponseBuilder {
     private final StatusLine status;
     private final Map<String, String> header = new HashMap<>();
-    private String body = "";
+    private byte[] body = new byte[0];
 
     public ResponseBuilder(StatusLine status) {
       this.status = status;
@@ -108,17 +107,15 @@ public class HttpResponse {
     }
 
     public ResponseBuilder withBody(String body) {
-      this.body = body;
-      return this;
+      return withBody(body.getBytes());
     }
 
     public ResponseBuilder withBody(List<String> body) {
-      this.body = flatten(body);
-      return this;
+      return withBody(flatten(body).getBytes());
     }
 
     public ResponseBuilder withBody(byte[] bytes) {
-      this.body = new String(bytes, Charset.defaultCharset());
+      this.body = bytes;
       return this;
     }
 
