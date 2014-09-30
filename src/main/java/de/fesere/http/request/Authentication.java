@@ -18,9 +18,17 @@ public class Authentication {
   }
 
   public boolean isAuthenticatedAs(String username, String password) {
-    String encoded = request.getHeaders().get("Authorization").replaceFirst("Basic ","");
-    String decoded = new String(Base64.decodeBase64(encoded), Charset.defaultCharset());
-    String [] credentials = decoded.split(":");
+    String[] credentials = extractCredentials();
     return username.equals(credentials[0]) && password.equals(credentials[1]);
+  }
+
+  private String[] extractCredentials() {
+    String encoded = request.getHeaders().get("Authorization").replaceFirst("Basic ","");
+    String decoded = decodeBase64(encoded);
+    return decoded.split(":");
+  }
+
+  private String decodeBase64(String encoded) {
+    return new String(Base64.decodeBase64(encoded), Charset.defaultCharset());
   }
 }

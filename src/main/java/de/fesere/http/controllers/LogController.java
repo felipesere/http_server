@@ -1,6 +1,7 @@
 package de.fesere.http.controllers;
 
 import de.fesere.http.Logger;
+import de.fesere.http.request.Authentication;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
 
@@ -25,6 +26,7 @@ public class LogController extends Controller {
   }
 
   private boolean authorized(HttpRequest request) {
-    return true ;
+    Authentication authentication = new Authentication(request);
+    return authentication.canBeAuthenticated() && authentication.isAuthenticatedAs("admin", "hunter2") ;
   }
 }
