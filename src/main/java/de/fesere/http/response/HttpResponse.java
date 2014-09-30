@@ -2,6 +2,7 @@ package de.fesere.http.response;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class HttpResponse {
   public static final String EMPTY_LINE = "";
   private final StatusLine statusLine;
   private final Map<String, String> headers;
-  private final String body;
+  private final byte[] body;
 
   public static ResponseBuilder response(StatusLine line) {
     return new ResponseBuilder(line);
@@ -22,7 +23,7 @@ public class HttpResponse {
   private HttpResponse(StatusLine statusLine, Map<String, String> headers, String body) {
     this.statusLine = statusLine;
     this.headers = headers;
-    this.body = body;
+    this.body = body.getBytes();
   }
 
   public int getStatusCode() {
@@ -37,16 +38,16 @@ public class HttpResponse {
     lines.add(statusLine.printable());
     lines.addAll(flatten(headers));
     lines.add(EMPTY_LINE);
-    lines.add(body);
+    lines.add(getBody());
     return merge(lines);
   }
 
   private String addContentLength() {
-    return headers.put("Content-Length", "" + body.length());
+    return headers.put("Content-Length", "" + body.length);
   }
 
   private boolean hasBody() {
-    return body.length() > 0;
+    return body.length > 0;
   }
 
   private List<String> flatten(Map<String, String> headers) {
@@ -66,7 +67,11 @@ public class HttpResponse {
   }
 
   public String getBody() {
-    return body;
+    return new String(body);
+  }
+
+  public byte[] toBytes() {
+    return printable().getBytes();
   }
 
   public static class ResponseBuilder {
@@ -90,6 +95,11 @@ public class HttpResponse {
 
     public ResponseBuilder withBody(List<String> body) {
       this.body = flatten(body);
+      return this;
+    }
+
+    public ResponseBuilder withBody(byte[] bytes) {
+      this.body = new String(bytes, Charset.defaultCharset());
       return this;
     }
 
