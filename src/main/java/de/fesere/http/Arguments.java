@@ -13,17 +13,19 @@ public class Arguments {
 
 
   public String getString(String key) {
-    if(!parsedArgs.containsKey(key)) {
-      throw new RuntimeException("Option ["+key+"] does not exist");
-    }
+    exists(key);
     return parsedArgs.get(key);
   }
 
   public int getInteger(String key) {
+    exists(key);
+    return Integer.parseInt(parsedArgs.get(key));
+  }
+
+  private void exists(String key) {
     if(!parsedArgs.containsKey(key)) {
       throw new RuntimeException("Option ["+key+"] does not exist");
     }
-    return Integer.parseInt(parsedArgs.get(key));
   }
 
   private static Map<String, String> parseArgs(String[] args) {
