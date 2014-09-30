@@ -1,5 +1,6 @@
 package de.fesere.http.controllers;
 
+import de.fesere.http.Logger;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.request.Path;
 import de.fesere.http.response.HttpResponse;
@@ -13,6 +14,7 @@ public class Controller {
   private MethodDispatcher dispatcher = new MethodDispatcher();
 
   public final HttpResponse dispatch(HttpRequest request) {
+    Logger.log(request.getRequestLine().toString());
     return dispatcher.dispatch(this, request);
   }
 

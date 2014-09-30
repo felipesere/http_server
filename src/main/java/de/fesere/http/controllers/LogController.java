@@ -1,14 +1,30 @@
 package de.fesere.http.controllers;
 
+import de.fesere.http.Logger;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
-import de.fesere.http.response.StatusLine;
+
+import java.util.List;
 
 import static de.fesere.http.response.HttpResponse.response;
+import static de.fesere.http.response.StatusLine.OK;
+import static de.fesere.http.response.StatusLine.UNAUTHORIZED;
 
 public class LogController extends Controller {
   @Override
   public HttpResponse doGet(HttpRequest request) {
-    return response(StatusLine.UNAUTHORIZED).withBody("Authentication required").addHeader("WWW-Authetniticate", "Basic real=\"littleServer\"").build();
+    List<String> logs = Logger.read();
+    if(authorized(request)) {
+      return response(OK).withBody(logs).build();
+    }
+    else {
+      return response(UNAUTHORIZED).withBody("Authentication required")
+              .addHeader("WWW-Authetniticate", "Basic real=\"littleServer\"")
+              .build();
+    }
+  }
+
+  private boolean authorized(HttpRequest request) {
+    return true ;
   }
 }

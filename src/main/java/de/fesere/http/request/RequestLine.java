@@ -24,4 +24,9 @@ public class RequestLine {
   public HttpVersion getHttpVersion() {
     return httpVersion;
   }
+
+  @Override
+  public String toString() {
+    return method.toString()  + " " + path + " " + httpVersion.printable();
+  }
 }
