@@ -5,23 +5,18 @@ import java.util.List;
 public class HtmlView {
   private static final String START = "<html><body>";
   private static final String END = "</body></html>";
-
-  public String render() {
-    return START + END;
-  }
-
-  public String render(String fullPath) {
-    String link = createLink(fullPath);
-    return START + link + END;
-  }
+  private static final String LINEBREAK = "</br>";
 
   public String render(List<String> paths) {
-    String result = START;
+    return START + createLinks(paths) + END;
+  }
+
+  private String createLinks(List<String> paths) {
+    String links = "";
     for(String path : paths) {
-      result += createLink(path);
+      links += createLink(path) + LINEBREAK;
     }
-    result += END;
-    return result;
+    return links;
   }
 
   private String createLink(String fullPath) {
