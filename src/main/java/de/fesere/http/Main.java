@@ -1,6 +1,9 @@
 package de.fesere.http;
 
-import de.fesere.http.controllers.*;
+import de.fesere.http.controllers.FormController;
+import de.fesere.http.controllers.MethodOptionsController;
+import de.fesere.http.controllers.ParameterController;
+import de.fesere.http.controllers.RedirectController;
 import de.fesere.http.controllers.filesystem.StaticResourcesController;
 import de.fesere.http.controllers.logger.LogController;
 import de.fesere.http.router.Router;
@@ -9,18 +12,16 @@ import de.fesere.http.vfs.VirtualFileSystem;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
   public static void main(String[] args) {
-    Map<String, String> arguments = parseArgs(args);
-    if(!arguments.containsKey("-d")) {
-      throw new RuntimeException("No root folder provided!");
-    }
-    VirtualFileSystem vfs = new VirtualFileSystem(arguments.get("-d"));
+    Arguments arguments = new Arguments(args);
+    int port = arguments.getInteger("-p");
+    String root = arguments.getString("-d");
+
+    VirtualFileSystem vfs = new VirtualFileSystem(root);
     vfs.preload();
 
     Router router = new Router();
@@ -33,7 +34,7 @@ public class Main {
 
     try {
       final ExecutorService executorService = Executors.newFixedThreadPool(30);
-      ServerSocket server = new ServerSocket(5000);
+      ServerSocket server = new ServerSocket(port);
       while (true) {
         Socket clientSocket = server.accept();
         executorService.submit(new Worker(clientSocket,router));
@@ -43,11 +44,4 @@ public class Main {
     }
   }
 
-  private static Map<String, String> parseArgs(String[] args) {
-    Map<String, String> result = new HashMap<>();
-    for (int i = 0; i < args.length; i += 2) {
-     result.put(args[i], args[i+1]);
-    }
-    return result;
-  }
 }
