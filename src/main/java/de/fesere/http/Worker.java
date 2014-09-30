@@ -7,8 +7,8 @@ import de.fesere.http.response.HttpResponse;
 import de.fesere.http.router.MethodDispatcher;
 import de.fesere.http.router.Router;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Worker implements Runnable {
@@ -25,13 +25,15 @@ public class Worker implements Runnable {
   @Override
   public void run() {
     try {
-      PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
       StreamingParser parser = new StreamingParser(clientSocket.getInputStream());
       HttpRequest httpRequest = parser.read();
 
       HttpResponse response = processController(httpRequest);
 
-      out.println(response.printable());
+      BufferedOutputStream bos = new BufferedOutputStream(clientSocket.getOutputStream());
+      bos.write(response.toBytes());
+      bos.flush();
+
       clientSocket.close();
     } catch (IOException e) {
     }

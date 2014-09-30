@@ -24,6 +24,7 @@ public class HttpResponseTest {
                                              .withBody("201 Created").build();
 
     assertThat(response.printable(), is(expected));
+    assertThat(response.toBytes(), is(expected.getBytes()));
   }
 
 
