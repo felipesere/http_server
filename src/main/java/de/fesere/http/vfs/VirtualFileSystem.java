@@ -65,6 +65,7 @@ public class VirtualFileSystem {
       List<String> lines = read(file);
       files.put("/" + file.getName(), lines);
     } catch (IOException e) {
+      throw new RuntimeException("Could not add file: " + file.getName(), e);
     }
   }
 
