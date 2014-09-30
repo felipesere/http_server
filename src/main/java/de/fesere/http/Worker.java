@@ -10,6 +10,9 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import static de.fesere.http.response.HttpResponse.response;
+import static de.fesere.http.response.StatusLine.INTERNAL_SERVER_ERROR;
+
 public class Worker implements Runnable {
   private final Router router;
   private final Socket clientSocket;
@@ -32,7 +35,16 @@ public class Worker implements Runnable {
       sendResponse(response);
 
       clientSocket.close();
-    } catch (IOException e) {
+    } catch (Exception e) {
+      trySend(response(INTERNAL_SERVER_ERROR).withBody(e.getMessage()).build());
+    }
+  }
+
+  private void trySend(HttpResponse response) {
+    try {
+      sendResponse(response);
+    } catch (IOException e1) {
+      throw new RuntimeException(e1);
     }
   }
 

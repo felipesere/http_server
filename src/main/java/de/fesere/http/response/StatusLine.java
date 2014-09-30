@@ -17,7 +17,7 @@ public enum  StatusLine {
   METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
   PRECONDITION_FAILED(412, "Precondition Failed"),
   OUT_OF_RANGE(416,"Range not satisfiable"),
-  ;
+  INTERNAL_SERVER_ERROR(500, "Internal Server Error");
 
 
   private final HttpVersion httpVersion = HttpVersion.HTTP_11;
