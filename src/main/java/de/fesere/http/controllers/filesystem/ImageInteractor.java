@@ -9,7 +9,7 @@ import static de.fesere.http.response.StatusLine.OK;
 
 public class ImageInteractor {
 
-  private VirtualFileSystem vfs;
+  private final VirtualFileSystem vfs;
 
   public ImageInteractor(VirtualFileSystem vfs) {
     this.vfs = vfs;

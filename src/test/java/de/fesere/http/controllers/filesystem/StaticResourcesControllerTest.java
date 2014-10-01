@@ -1,18 +1,17 @@
 package de.fesere.http.controllers.filesystem;
 
 import de.fesere.http.controllers.Controller;
-import de.fesere.http.controllers.filesystem.StaticResourcesController;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.response.HttpResponse;
 import de.fesere.http.vfs.VirtualFileSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.fesere.http.request.Method.GET;
-import static de.fesere.http.request.Method.PATCH;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasBody;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasStatusCode;
-import static de.fesere.http.request.HttpRequest.*;
+import static de.fesere.http.request.HttpRequest.request;
+import static de.fesere.http.request.Method.GET;
+import static de.fesere.http.request.Method.PATCH;
 import static de.fesere.http.request.Path.path;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.*;
@@ -29,7 +28,7 @@ public class StaticResourcesControllerTest {
   }
 
   @Test
-  public void testReadDirectoryListings() {
+  public void readDirectoryListings() {
     vfs.create("/file1");
     vfs.create("/file2");
     vfs.create("/file3");
@@ -39,7 +38,7 @@ public class StaticResourcesControllerTest {
   }
 
   @Test
-  public void testReadFileFromRootDirectory() {
+  public void readFileFromRootDirectory() {
     vfs.create("/file1");
     vfs.writeTo("/file1", asList("Foo", "Bar"));
 
@@ -50,7 +49,7 @@ public class StaticResourcesControllerTest {
   }
 
   @Test
-  public void testPatchVerifiesChecksum() {
+  public void patchVerifiesChecksum() {
     vfs.create("/patch-file");
     vfs.writeTo("/patch-file", asList("FooBar"));
 

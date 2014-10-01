@@ -6,7 +6,7 @@ import org.apache.commons.codec.binary.Base64;
 import java.nio.charset.Charset;
 
 public class Authentication {
-  private HttpRequest request;
+  private final HttpRequest request;
 
   public Authentication(HttpRequest request) {
 

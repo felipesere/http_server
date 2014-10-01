@@ -11,7 +11,7 @@ import static de.fesere.http.response.StatusLine.METHOD_NOT_ALLOWED;
 public class Controller {
 
   private final HttpResponse methodNotAllowed = response(METHOD_NOT_ALLOWED).build();
-  private MethodDispatcher dispatcher = new MethodDispatcher();
+  private final MethodDispatcher dispatcher = new MethodDispatcher();
 
   public final HttpResponse dispatch(HttpRequest request) {
     Logger.log(request.getRequestLine().toString());

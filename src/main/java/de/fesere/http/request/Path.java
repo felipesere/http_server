@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
 public class Path {
 
   private final String path;
-  public static final Pattern PATH_SEGMENT_PATTEN = Pattern.compile("^(/[^/\\?]+)");
-  public static final Pattern QUERY_ELEMENTS = Pattern.compile("([^&=]+)=([^&=]+)");
-  public static final Pattern QUERY_SEGMENT = Pattern.compile(".*\\?([^/]+)");
+  private static final Pattern PATH_SEGMENT_PATTEN = Pattern.compile("^(/[^/\\?]+)");
+  private static final Pattern QUERY_ELEMENTS = Pattern.compile("([^&=]+)=([^&=]+)");
+  private static final Pattern QUERY_SEGMENT = Pattern.compile(".*\\?([^/]+)");
 
   public static Path path(String path) {
     return new Path(path);

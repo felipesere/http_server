@@ -16,8 +16,6 @@ import static de.fesere.http.response.StatusLine.INTERNAL_SERVER_ERROR;
 public class Worker implements Runnable {
   private final Router router;
   private final Socket clientSocket;
-  private StreamingParser parser;
-  private BufferedOutputStream bos;
 
   public Worker(Socket clientSocket, Router router) {
     this.clientSocket = clientSocket;
@@ -27,7 +25,7 @@ public class Worker implements Runnable {
   @Override
   public void run() {
     try {
-      parser = new StreamingParser(clientSocket.getInputStream());
+      StreamingParser parser = new StreamingParser(clientSocket.getInputStream());
 
       HttpRequest httpRequest = parser.readRequest();
       HttpResponse response = process(httpRequest);
@@ -49,7 +47,7 @@ public class Worker implements Runnable {
   }
 
   private void sendResponse(HttpResponse response) throws IOException {
-    bos = new BufferedOutputStream(clientSocket.getOutputStream());
+    BufferedOutputStream bos = new BufferedOutputStream(clientSocket.getOutputStream());
     bos.write(response.toBytes());
     bos.flush();
   }

@@ -12,7 +12,7 @@ import java.util.*;
 
 public class VirtualFileSystem {
   private final Map<String, List<String>> files = Collections.synchronizedMap(new HashMap<>());
-  private String folderPath;
+  private final String folderPath;
 
   public VirtualFileSystem(String root) {
     this.folderPath = root;

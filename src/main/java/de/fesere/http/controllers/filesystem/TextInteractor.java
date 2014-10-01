@@ -15,7 +15,7 @@ import static de.fesere.http.utils.Utils.flatten;
 public class TextInteractor {
 
   private final VirtualFileSystem vfs;
-
+  private final Range range = new Range();
   public TextInteractor(VirtualFileSystem vfs) {
     this.vfs = vfs;
   }
@@ -23,9 +23,8 @@ public class TextInteractor {
   public HttpResponse responseForText(HttpRequest request, Path path) {
     List<String> lines;
     lines = vfs.read(path.getRemainder());
-    Range range = new Range();
     if (range.hasRangeHeader(request)) {
-      return range.handleRangeRequest(request.getHeaders().get("Range"), flatten(lines, "\n"));
+      return range.handleRangeRequest(request, flatten(lines, "\n"));
     }
     return response(OK).withBody(lines).build();
   }
