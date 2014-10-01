@@ -2,6 +2,7 @@ package de.fesere.http.response;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,5 +71,9 @@ public class HttpResponse {
     buffer.flip();
 
     return buffer.array();
+  }
+
+  public Map<String, String> getHeader() {
+    return new HashMap<>(headers);
   }
 }

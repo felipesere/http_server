@@ -9,12 +9,6 @@ import de.fesere.http.controllers.logger.LogController;
 import de.fesere.http.router.Router;
 import de.fesere.http.vfs.VirtualFileSystem;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class Main {
   public static void main(String[] args) {
     Arguments arguments = new Arguments(args);
@@ -32,16 +26,12 @@ public class Main {
     router.register("/redirect", new RedirectController());
     router.register("/parameters", new ParameterController());
 
-    try {
-      final ExecutorService executorService = Executors.newFixedThreadPool(30);
-      ServerSocket server = new ServerSocket(port);
-      while (true) {
-        Socket clientSocket = server.accept();
-        executorService.submit(new Worker(clientSocket,router));
-      }
-    } catch (IOException e) {
-      System.exit(-1);
-    }
+    HttpServer server = new HttpServer(port, router);
+    onShutdown(server::stop);
+    server.start();
   }
 
+  private static void onShutdown(Runnable runnable) {
+    Runtime.getRuntime().addShutdownHook(new Thread(runnable));
+  }
 }

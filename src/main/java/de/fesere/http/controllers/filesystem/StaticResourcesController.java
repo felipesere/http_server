@@ -1,7 +1,6 @@
 package de.fesere.http.controllers.filesystem;
 
 import de.fesere.http.controllers.Controller;
-import de.fesere.http.response.Range;
 import de.fesere.http.request.HttpRequest;
 import de.fesere.http.request.Path;
 import de.fesere.http.response.HttpResponse;
@@ -10,16 +9,20 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
 
-import static de.fesere.http.utils.Utils.flatten;
 import static de.fesere.http.response.HttpResponse.response;
 import static de.fesere.http.response.StatusLine.*;
+import static de.fesere.http.utils.Utils.flatten;
 
 public class StaticResourcesController extends Controller {
 
   private final VirtualFileSystem vfs;
+  private final ImageInteractor imageInteractor;
+  private final TextInteractor textInteractor;
 
   public StaticResourcesController(VirtualFileSystem vfs) {
     this.vfs = vfs;
+    this.imageInteractor = new ImageInteractor(vfs);
+    this.textInteractor = new TextInteractor(vfs);
   }
 
   @Override
@@ -37,25 +40,10 @@ public class StaticResourcesController extends Controller {
     if (path.isRoot()) {
       return responseForAllLines();
     } else if (isImage(path)) {
-      return responseForImage(path);
+      return imageInteractor.responseForImage(path);
     } else {
-      return responseForText(request, path);
+      return textInteractor.responseForText(request,path);
     }
-  }
-
-  private HttpResponse responseForText(HttpRequest request, Path path) {
-    List<String> lines;
-    lines = vfs.read(path.getRemainder());
-    Range range = new Range();
-    if (range.hasRangeHeader(request)) {
-      return range.handleRangeRequest(request.getHeaders().get("Range"), flatten(lines, "\n"));
-    }
-    return response(OK).withBody(lines).build();
-  }
-
-  private HttpResponse responseForImage(Path path) {
-    byte[] fileContent = vfs.getRawBytes(path.getFullpath());
-    return response(OK).withBody(fileContent).build();
   }
 
   private HttpResponse responseForAllLines() {
@@ -69,7 +57,6 @@ public class StaticResourcesController extends Controller {
     return fullPath.endsWith(".jpeg") || fullPath.endsWith(".png") || fullPath.endsWith(".gif");
   }
 
-
   @Override
   public HttpResponse doPatch(HttpRequest request) {
     if (sha1matchesCurrentContent(request)) {
@@ -79,7 +66,6 @@ public class StaticResourcesController extends Controller {
       return response(PRECONDITION_FAILED).build();
     }
   }
-
 
   public boolean sha1matchesCurrentContent(HttpRequest request) {
     String inSha1 = request.getHeaders().get("If-Match");

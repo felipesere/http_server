@@ -1,5 +1,6 @@
 package de.fesere.http;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,11 +25,16 @@ public class Arguments {
 
   private void exists(String key) {
     if(!parsedArgs.containsKey(key)) {
-      throw new RuntimeException("Option ["+key+"] does not exist");
+      System.out.println("Mandatory paramter ["+key+"] missing");
+      System.exit(-1);
     }
   }
 
   private static Map<String, String> parseArgs(String[] args) {
+    if(args.length % 2 != 0) {
+      System.out.println("Invalid number of paramters: " + Arrays.deepToString(args));
+      System.exit(-1);
+    }
     Map<String, String> result = new HashMap<>();
     for (int i = 0; i < args.length; i += 2) {
       result.put(args[i], args[i+1]);

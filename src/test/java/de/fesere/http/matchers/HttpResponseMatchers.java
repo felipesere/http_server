@@ -1,8 +1,12 @@
 package de.fesere.http.matchers;
 
 import de.fesere.http.response.HttpResponse;
+import org.hamcrest.Description;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+
+import java.util.Map;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -21,6 +25,24 @@ public class HttpResponseMatchers {
       @Override
       protected String featureValueOf(HttpResponse actual) {
         return actual.getBody();
+      }
+    };
+  }
+
+  public static Matcher<HttpResponse> hasHeader(String header, String value) {
+    return new TypeSafeMatcher<HttpResponse>() {
+      @Override
+      protected boolean matchesSafely(HttpResponse item) {
+        Map<String, String> responseHeaders = item.getHeader();
+        if(responseHeaders.containsKey(header)) {
+          return responseHeaders.get(header).equals(value);
+        }
+        return false;
+      }
+
+      @Override
+      public void describeTo(Description description) {
+
       }
     };
   }
