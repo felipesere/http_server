@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class Path {
 
   private final String path;
-  private static final Pattern PATH_SEGMENT_PATTEN = Pattern.compile("^(/[^/\\?]+)");
+  private static final Pattern PATH_SEGMENT_PATTEN = Pattern.compile("^(/[^/?]+)");
   private static final Pattern QUERY_ELEMENTS = Pattern.compile("([^&=]+)=([^&=]+)");
   private static final Pattern QUERY_SEGMENT = Pattern.compile(".*\\?([^/]+)");
 
@@ -32,7 +32,7 @@ public class Path {
     } else {
       int secondSlash = path.indexOf("/", 1);
       if(secondSlash > 0) {
-        return path.substring(secondSlash,path.length());
+        return path.substring(secondSlash, path.length());
       } else {
         return path;
       }

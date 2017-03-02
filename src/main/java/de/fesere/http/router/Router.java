@@ -34,7 +34,7 @@ public class Router {
     }
   }
 
-  public void rootCoontroler(Controller handlePath) {
+  public void rootController(Controller handlePath) {
     this.rootController = handlePath;
   }
 }

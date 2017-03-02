@@ -39,7 +39,7 @@ public class RouterTest {
   @Test
   public void dynamicControllerFoundToHandleSubpath() {
     Controller handlePath = controller(s -> s.getFullpath().startsWith("/sample"));
-    router.rootCoontroler(handlePath);
+    router.rootController(handlePath);
     assertThat(router.controllerFor(path("/sample/subpath")), is(handlePath));
     assertThat(router.controllerFor(path("/other")), is(a(NotFoundController.class)));
   }

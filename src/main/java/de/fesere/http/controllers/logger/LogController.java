@@ -20,7 +20,7 @@ public class LogController extends Controller {
     }
     else {
       return response(UNAUTHORIZED).withBody("Authentication required")
-              .addHeader("WWW-Authetniticate", "Basic real=\"littleServer\"")
+              .addHeader("WWW-Authenticate", "Basic realm=\"littleServer\"")
               .build();
     }
   }

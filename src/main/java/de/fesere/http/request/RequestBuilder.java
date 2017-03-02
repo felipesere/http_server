@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import static de.fesere.http.request.HttpVersion.HTTP_11;
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 public class RequestBuilder {
 
@@ -35,6 +35,6 @@ public class RequestBuilder {
   }
 
   public RequestBuilder withBody(String body) {
-    return  withBody(asList(body));
+    return  withBody(singletonList(body));
   }
 }

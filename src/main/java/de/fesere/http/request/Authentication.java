@@ -9,7 +9,6 @@ public class Authentication {
   private final HttpRequest request;
 
   public Authentication(HttpRequest request) {
-
     this.request = request;
   }
 

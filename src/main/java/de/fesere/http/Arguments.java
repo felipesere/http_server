@@ -8,8 +8,8 @@ public class Arguments {
 
   private final Map<String, String> parsedArgs;
 
-  public Arguments(String [] intput) {
-    parsedArgs = parseArgs(intput);
+  public Arguments(String [] input) {
+    parsedArgs = parseArgs(input);
   }
 
 
@@ -25,14 +25,14 @@ public class Arguments {
 
   private void exists(String key) {
     if(!parsedArgs.containsKey(key)) {
-      System.out.println("Mandatory paramter ["+key+"] missing");
+      System.out.println("Mandatory parameter ["+key+"] missing");
       System.exit(-1);
     }
   }
 
   private static Map<String, String> parseArgs(String[] args) {
     if(args.length % 2 != 0) {
-      System.out.println("Invalid number of paramters: " + Arrays.deepToString(args));
+      System.out.println("Invalid number of parameters: " + Arrays.deepToString(args));
       System.exit(-1);
     }
     Map<String, String> result = new HashMap<>();

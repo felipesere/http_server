@@ -10,7 +10,7 @@ import static de.fesere.http.utils.Utils.flatten;
 
 public class HttpResponse {
 
-  public static final String CRLF = "\r\n";
+  private static final String CRLF = "\r\n";
   private final StatusLine statusLine;
   private final Map<String, String> headers;
   private final byte[] body;

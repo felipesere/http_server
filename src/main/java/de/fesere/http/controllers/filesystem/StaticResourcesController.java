@@ -67,7 +67,7 @@ public class StaticResourcesController extends Controller {
     }
   }
 
-  public boolean sha1matchesCurrentContent(HttpRequest request) {
+  private boolean sha1matchesCurrentContent(HttpRequest request) {
     String inSha1 = request.getHeaders().get("If-Match");
     String filePath = request.getPath().getFullpath();
     String file = flatten(vfs.read(filePath), "\n");

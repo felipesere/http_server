@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 public class HttpServer {
   private final int port;
   private final Router router;
-  final ExecutorService executorService = Executors.newFixedThreadPool(30);
+  private final ExecutorService executorService = Executors.newFixedThreadPool(30);
 
   public HttpServer(int port, Router router) {
     this.port = port;

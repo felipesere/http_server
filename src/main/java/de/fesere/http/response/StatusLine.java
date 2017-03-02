@@ -24,7 +24,7 @@ public enum  StatusLine {
   private final int status;
   private final String reason;
 
-  private StatusLine(int status, String reason) {
+  StatusLine(int status, String reason) {
     this.status = status;
     this.reason = reason;
   }
