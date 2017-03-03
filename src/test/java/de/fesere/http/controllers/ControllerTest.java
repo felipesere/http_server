@@ -1,6 +1,7 @@
 package de.fesere.http.controllers;
 
 import de.fesere.http.request.HttpRequest;
+import de.fesere.http.request.Method;
 import de.fesere.http.response.HttpResponse;
 import org.junit.Test;
 
@@ -32,6 +33,13 @@ public class ControllerTest {
     assertThat(controller.dispatch(head), hasStatusCode(405));
     assertThat(controller.dispatch(patch), hasStatusCode(405));
     assertThat(controller.dispatch(options), hasStatusCode(405));
+  }
+
+  @Test
+  public void returnsMethodNotAllowedForUnknownMethod() {
+    Controller controller = new Controller();
+    HttpRequest unknown = request(Method.UNKNWON, "/foo").build();
+    assertThat(controller.dispatch(unknown), hasStatusCode(405));
   }
 
   @Test

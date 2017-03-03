@@ -46,7 +46,12 @@ public class Controller {
     return methodNotAllowed;
   }
 
+  public HttpResponse unknown(HttpRequest request) {
+    return methodNotAllowed;
+  }
+
   public boolean canHandle(Path path) {
     return true;
   }
+
 }

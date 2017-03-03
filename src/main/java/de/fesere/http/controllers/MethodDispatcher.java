@@ -23,6 +23,8 @@ public class MethodDispatcher {
         return controller.doHead(httpRequest);
       case PATCH:
         return controller.doPatch(httpRequest);
+      case UNKNWON:
+        return controller.unknown(httpRequest);
       default:
         throw new RuntimeException("Unexpected Method");
     }

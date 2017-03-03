@@ -7,5 +7,6 @@ public enum Method {
   HEAD,
   DELETE,
   OPTIONS,
-  PATCH
+  PATCH,
+  UNKNWON,
 }
