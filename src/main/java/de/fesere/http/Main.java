@@ -24,6 +24,8 @@ public class Main {
     router.register("/parameters", new ParameterController());
     router.register("/cookie", new CookieController());
     router.register("/eat_cookie", new CookieController());
+    router.register("/coffee", new CoffeeController());
+    router.register("/tea", new TeeController());
 
     HttpServer server = new HttpServer(port, router);
     onShutdown(server::stop);
