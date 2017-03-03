@@ -8,5 +8,13 @@ public enum Method {
   DELETE,
   OPTIONS,
   PATCH,
-  UNKNWON,
+  UNKNWON;
+
+  public static  Method fromString(String element) {
+    try {
+      return Method.valueOf(element.toUpperCase());
+    } catch (IllegalArgumentException e) {
+      return Method.UNKNWON;
+    }
+  }
 }

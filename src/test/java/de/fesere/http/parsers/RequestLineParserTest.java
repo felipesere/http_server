@@ -56,4 +56,10 @@ public class RequestLineParserTest {
     RequestLine requestLine = parser.read("PATCH /logs HTTP/1.1\n");
     assertThat(requestLine.getMethod(), is(PATCH));
   }
+
+  @Test
+  public void itDefaultsToUnknown() {
+    RequestLine requestLine = parser.read("RANDOM /logs HTTP/1.1\n");
+    assertThat(requestLine.getMethod(), is(UNKNWON));
+  }
 }

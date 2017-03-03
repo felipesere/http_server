@@ -12,13 +12,9 @@ public class RequestLineParser {
 
   public RequestLine read(String line) {
     String [] elements = line.split(" ");
-    return new RequestLine(parseMethod(elements[METHOD]),
+    return new RequestLine(Method.fromString(elements[METHOD]),
                            elements[PATH],
                            parseHttpVersion(elements[HTTP_VERSION]));
-  }
-
-  private Method parseMethod(String element) {
-    return Method.valueOf(element.toUpperCase());
   }
 
   private HttpVersion parseHttpVersion(String element) {
