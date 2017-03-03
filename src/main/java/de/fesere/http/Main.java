@@ -1,9 +1,6 @@
 package de.fesere.http;
 
-import de.fesere.http.controllers.FormController;
-import de.fesere.http.controllers.MethodOptionsController;
-import de.fesere.http.controllers.ParameterController;
-import de.fesere.http.controllers.RedirectController;
+import de.fesere.http.controllers.*;
 import de.fesere.http.controllers.filesystem.StaticResourcesController;
 import de.fesere.http.controllers.logger.LogController;
 import de.fesere.http.router.Router;
@@ -25,6 +22,8 @@ public class Main {
     router.register("/method_options", new MethodOptionsController());
     router.register("/redirect", new RedirectController());
     router.register("/parameters", new ParameterController());
+    router.register("/cookie", new CookieController());
+    router.register("/eat_cookie", new CookieController());
 
     HttpServer server = new HttpServer(port, router);
     onShutdown(server::stop);
