@@ -35,6 +35,11 @@ public class StaticResourcesController extends Controller {
   }
 
   @Override
+  public HttpResponse doHead(HttpRequest request) {
+      return response(OK).build();
+  }
+
+  @Override
   public HttpResponse doGet(HttpRequest request) {
     Path path = request.getPath();
     if (path.isRoot()) {
