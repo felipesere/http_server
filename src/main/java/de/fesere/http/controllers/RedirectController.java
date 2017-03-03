@@ -9,6 +9,6 @@ import static de.fesere.http.response.StatusLine.MOVED_PERMANENTLY;
 public class RedirectController extends Controller {
   @Override
   public HttpResponse doGet(HttpRequest request) {
-    return response(MOVED_PERMANENTLY).addHeader("Location", "http://localhost:5000/").build();
+    return response(MOVED_PERMANENTLY).addHeader("Location", "/").build();
   }
 }
