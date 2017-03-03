@@ -27,7 +27,23 @@ public class RangeTest {
     HttpRequest request = requestWithRange("bytes=0-4");
     HttpResponse response = range.handleRangeRequest(request, "This has many chars");
     assertThat(response, hasStatusCode(206));
-    assertThat(response, hasBody(equalTo("This")));
+    assertThat(response, hasBody(equalTo("This ")));
+  }
+
+  @Test
+  public void grabTheLastSixBytes() {
+    HttpRequest request = requestWithRange("bytes=-6");
+    HttpResponse response = range.handleRangeRequest(request, "This has many chars");
+    assertThat(response, hasStatusCode(206));
+    assertThat(response, hasBody(equalTo(" chars")));
+  }
+
+  @Test
+  public void skipsTheFirstFiveBytes() {
+    HttpRequest request = requestWithRange("bytes=5-");
+    HttpResponse response = range.handleRangeRequest(request, "This has many chars");
+    assertThat(response, hasStatusCode(206));
+    assertThat(response, hasBody(equalTo("has many chars")));
   }
 
   private HttpRequest requestWithRange(String value) {

@@ -76,7 +76,7 @@ public class StaticResourcesControllerTest {
   }
 
   @Test
-  public void understadsRangeHeader() {
+  public void understandsRangeHeader() {
     vfs.create("/partial-content.txt");
     vfs.writeTo("/partial-content.txt", asList("This is a file that contains text to read part of in order to fulfill a 206."));
 
@@ -84,6 +84,6 @@ public class StaticResourcesControllerTest {
 
     HttpResponse response = controller.doGet(httpRequest);
     assertThat(response, hasStatusCode(206));
-    assertThat(response, hasBody(equalTo("This")));
+    assertThat(response, hasBody(equalTo("This ")));
   }
 }
