@@ -10,9 +10,9 @@ import static de.fesere.http.response.StatusLine.*;
 import static java.lang.Integer.parseInt;
 
 public class Range {
-  private final Pattern twoSidedPattern = Pattern.compile("bytes=([\\d]+)-([\\d]+)");
-  private final Pattern endedPattern = Pattern.compile("bytes=-([\\d]+)");
-  private final Pattern openEnddedPattern = Pattern.compile("bytes=([\\d]+)-");
+  private final Pattern twoSidedPattern = Pattern.compile("bytes=(\\d+)-(\\d+)");
+  private final Pattern endedPattern = Pattern.compile("bytes=-(\\d+)");
+  private final Pattern openEnddedPattern = Pattern.compile("bytes=(\\d+)-");
 
   public boolean hasRangeHeader(HttpRequest request) {
     return extractRangeHeader(request) != null;
