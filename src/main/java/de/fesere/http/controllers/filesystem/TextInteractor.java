@@ -26,6 +26,6 @@ public class TextInteractor {
     if (range.hasRangeHeader(request)) {
       return range.handleRangeRequest(request, flatten(lines, "\n"));
     }
-    return response(OK).withBody(lines).build();
+    return response(OK).withBody(lines).addHeader("Content-Type","text/plain").build();
   }
 }

@@ -42,7 +42,7 @@ public class HttpResponseMatchers {
 
       @Override
       public void describeTo(Description description) {
-
+          description.appendText("Did not find header " + header + " with value " + value);
       }
     };
   }

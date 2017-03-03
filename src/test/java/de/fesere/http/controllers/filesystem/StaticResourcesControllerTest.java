@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static de.fesere.http.matchers.HttpResponseMatchers.hasBody;
+import static de.fesere.http.matchers.HttpResponseMatchers.hasHeader;
 import static de.fesere.http.matchers.HttpResponseMatchers.hasStatusCode;
 import static de.fesere.http.request.HttpRequest.request;
 import static de.fesere.http.request.Method.GET;
@@ -45,7 +46,9 @@ public class StaticResourcesControllerTest {
     HttpRequest httpRequest = request(GET, "/file1").build();
 
     assertThat(controller.canHandle(path("/file1")), is(true));
-    assertThat(controller.doGet(httpRequest), hasBody(allOf(containsString("Foo"), containsString("Bar"))));
+    HttpResponse httpResponse = controller.doGet(httpRequest);
+    assertThat(httpResponse, hasBody(allOf(containsString("Foo"), containsString("Bar"))));
+    assertThat(httpResponse, hasHeader("Content-Type", "text/plain"));
   }
 
   @Test
