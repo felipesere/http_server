@@ -20,6 +20,7 @@ public class Main {
     router.register("/form", new FormController(vfs));
     router.register("/logs", new LogController());
     router.register("/method_options", new MethodOptionsController());
+    router.register("/method_options2", new MethodOptions2Controller());
     router.register("/redirect", new RedirectController());
     router.register("/parameters", new ParameterController());
     router.register("/cookie", new CookieController());
